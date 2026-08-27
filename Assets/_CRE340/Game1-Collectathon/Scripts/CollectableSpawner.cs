@@ -7,6 +7,7 @@ public class CollectibleSpawner : MonoBehaviour
     
     public int numberOfCollectibles = 10;  
     public Vector3 spawnArea; // x, y, z (width, height, depth) of the spawn area (20,0,20)  
+    public Vector3 spawnOffset; // offset from the spawner's position (0,0,0)
   
     void Awake()  
     {        
@@ -26,7 +27,7 @@ public class CollectibleSpawner : MonoBehaviour
             );  
             
             //create the collectable
-            Instantiate(collectiblePrefab, randomPosition, Quaternion.identity);  // instantiate takes 3 parameters (GameObject, position, rotation)
+            Instantiate(collectiblePrefab, randomPosition + spawnOffset, Quaternion.identity);  // instantiate takes 3 parameters (GameObject, position, rotation)
         }    
     }  
 	

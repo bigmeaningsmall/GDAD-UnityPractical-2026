@@ -1851,7 +1851,7 @@ MonoBehaviour:
   lookSpeed: 10
   dashSpeed: 2
   dashTime: 0.2
-  dashCooldown: 2
+  dashCooldown: 1
   movementInput: {x: 0, y: 0}
   lookInput: {x: 0, y: 0}
   dashInput: 0

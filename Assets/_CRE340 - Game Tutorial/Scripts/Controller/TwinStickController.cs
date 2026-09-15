@@ -18,7 +18,7 @@ public class TwinStickController : MonoBehaviour
     public float dashSpeed = 2f;        // multiplier applied to normal speed while dashing (2 = twice as fast)
     public float dashTime = 0.2f;       // how long a single dash lasts, in seconds
     private float startDashTime;        // the Time.time when the current dash began
-    public float dashCooldown = 2f;     // minimum seconds between dashes
+    public float dashCooldown = 1f;     // minimum seconds between dashes
     private bool isDashing = false;
     private float lastDashTime = -100f; // start well in the past so the first dash is allowed immediately
 

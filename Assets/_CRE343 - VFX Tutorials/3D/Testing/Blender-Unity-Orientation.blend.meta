@@ -3,7 +3,12 @@ guid: 202fba2bd8a0f0f4aaae26e4ad8a6a3c
 ModelImporter:
   serializedVersion: 24200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: M_MeasuringCube
+    second: {fileID: 2100000, guid: 16344620e1495dc4baefd82961f4bdce, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

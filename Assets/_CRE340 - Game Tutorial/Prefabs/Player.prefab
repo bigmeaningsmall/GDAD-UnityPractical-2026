@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 6139290536108582789}
   - component: {fileID: 2036778188311069111}
   - component: {fileID: 6689284765851377245}
+  - component: {fileID: 6137619912153512062}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -166,6 +167,23 @@ MonoBehaviour:
   movementInput: {x: 0, y: 0}
   lookInput: {x: 0, y: 0}
   dashInput: 0
+--- !u!114 &6137619912153512062
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 549597671983125512}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c74372ff9c5de52428c97dd396a1d288, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerStats
+  data:
+    currentHealth: 50
+    maxHealth: 100
+    currentMana: 20
+    maxMana: 100
 --- !u!1 &2472450579939808116
 GameObject:
   m_ObjectHideFlags: 0
@@ -292,15 +310,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3436520855698725261, guid: 9c526ced48e66634082c4eea171295a8, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.0798
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3436520855698725261, guid: 9c526ced48e66634082c4eea171295a8, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3436520855698725261, guid: 9c526ced48e66634082c4eea171295a8, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -4.99714
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3436520855698725261, guid: 9c526ced48e66634082c4eea171295a8, type: 3}
       propertyPath: m_LocalRotation.w

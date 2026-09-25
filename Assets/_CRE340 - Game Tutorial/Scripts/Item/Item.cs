@@ -1,12 +1,19 @@
+using System.Collections;
 using UnityEngine;
 
-// Base class Item - every item in our game derives from this
-public class Item : MonoBehaviour
+// Base class Item - every item in our game derives from this - It Inherits from Monobehaviour so any derived class gets Mono and Item
+public abstract class Item : MonoBehaviour  
 {
     // An INSTANCE of our plain ItemData class, holding this item's identity.
     // 'protected' means derived classes can reach it, but unrelated scripts can't.
     [SerializeField] protected ItemData data;
-
+    
+    [Header("Item Appearance")]
+    [SerializeField] protected Color itemColor = Color.white; // set per-prefab in the Inspector
+    
+    [Header("Item Movement")]
+    [SerializeField] protected float rotationSpeed = 100f; // degrees per second
+    
     // ---------- SETUP ----------
 
     // 'virtual' so derived classes can override it and set their own identity.
@@ -14,8 +21,19 @@ public class Item : MonoBehaviour
     // so our data is ready before anything else tries to read it. - See the 'Unity Lifecycle'
     protected virtual void Awake()
     {
-        // Nothing shared here yet - each derived class sets its own identity.
-        // TODO - We come back to this in Part 2 and add behaviour that EVERY item gets.
+        Renderer itemRenderer = GetComponent<Renderer>(); // get the renderer component 
+
+        if (itemRenderer != null)
+        {
+            itemRenderer.material.color = itemColor; // access the material and set the colour
+        }
+    }
+    
+    // Every item rotates - defined ONCE here, inherited by every item type - notice the protected keyword so derived classes can still reach it, but unrelated scripts can't.
+    protected virtual void Update()
+    {
+        // Rotate slowly around the Y-axis 
+        transform.Rotate(Vector3.up, rotationSpeed * Time.deltaTime); // not the most efficient way to rotate or use Update(), but its simple and works for this example
     }
 
     // ---------- SHARED BEHAVIOUR (inherited as-is, never overridden) ----------
@@ -50,9 +68,40 @@ public class Item : MonoBehaviour
 
     // ---------- SPECIALISED BEHAVIOUR (overridden by each derived class) ----------
 
-    // 'virtual' means: here is a default, but derived classes are allowed to replace it 
-    public virtual void Use(PlayerStats player)
+    // OLD USE METHOD BEFORE ABSTRACTION - now we have an abstract method below so every derived class MUST implement its own Use() method
+    // // 'virtual' means: here is a default, but derived classes are allowed to replace it 
+    // public virtual void Use(PlayerStats player)
+    // {
+    //     Debug.Log("Used a generic item - it did nothing.");
+    // }
+    
+    // 'abstract' method - no body at all. Every derived class MUST provide its own Use().
+    public abstract void Use(PlayerStats player);
+    
+    // ---------- More SPECIALISED BEHAVIOUR (Click example - OK to put the bool here as its just an example - normally I would keep the variables at the top of the class) ----------
+    
+    // To prevent multiple clicks during the pulse effect
+    private bool canClick = true;
+
+    // OnMouseDown is a built-in Unity message - it fires when this object's collider is clicked
+    protected virtual void OnMouseDown()
     {
-        Debug.Log("Used a generic item - it did nothing.");
+        if (canClick)
+        {
+            canClick = false;
+            StartCoroutine(PulseEffect());
+        }
+    }
+
+    // Coroutine to handle the pulse effect - runs across several frames
+    private IEnumerator PulseEffect()
+    {
+        Vector3 originalScale = transform.localScale;
+        transform.localScale = originalScale * 1.2f;    // scale up
+        
+        yield return new WaitForSeconds(0.2f);          // wait, without freezing the game
+        
+        transform.localScale = originalScale;           // scale back down
+        canClick = true;                                // re-enable clicking
     }
 }

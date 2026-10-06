@@ -44,7 +44,7 @@ public class TwinStickController : MonoBehaviour
         lookInput = inputManager.RightStickInput;      // right stick = aim / look
 
         // ButtonSouth (the "A" button) is an InputActionState. Pressed() is true ONLY on the frame the
-        dashInput = inputManager.ButtonSouth.Pressed();
+        dashInput = inputManager.ButtonWest.Pressed();
         
         
         // Update velocity for movement (turn the 2D stick into a 3D velocity on the X/Z ground plane)

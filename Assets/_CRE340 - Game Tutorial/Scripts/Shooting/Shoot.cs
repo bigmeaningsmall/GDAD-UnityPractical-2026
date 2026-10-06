@@ -30,9 +30,15 @@ public class Shoot : MonoBehaviour
 
     void Update()
     {
+        // TODO - CHANGE THIS  TO USE A BUTTON OR - Dash is now set to buttonwest
         // Read the fire button from the InputManager
         // Held() keeps firing while the trigger is down - the cooldown controls the fire rate
-        if (inputManager.RightTriggerPressed.Held() && Time.time > lastShootTime + shootCooldown)
+        // if (inputManager.RightTriggerPressed.Held() && Time.time > lastShootTime + shootCooldown)
+        // {
+        //     Fire();
+        // }
+        //todo buttons need changed
+        if (inputManager.ButtonSouth.Held() && Time.time > lastShootTime + shootCooldown)
         {
             Fire();
         }

@@ -29,12 +29,18 @@ public class ExplodingCrate : MonoBehaviour, IDamagable
         // We MUST check for null first - see the explanation below.
         if (HealthEventManager.OnObjectDamaged != null)
         {
-            HealthEventManager.OnObjectDamaged(health);
+            HealthEventManager.OnObjectDamaged(gameObject.name, health);
         }
 
         if (health <= 0)
         {
-            Explode();              // the thing that makes this crate different
+            Explode();
+
+            if (HealthEventManager.OnObjectDestroyed != null)
+            {
+                HealthEventManager.OnObjectDestroyed(gameObject.name, health);
+            }
+
             Destroy(gameObject);
         }
     }

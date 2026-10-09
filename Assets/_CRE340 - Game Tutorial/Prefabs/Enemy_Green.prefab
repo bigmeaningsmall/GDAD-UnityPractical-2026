@@ -11,11 +11,11 @@ GameObject:
   - component: {fileID: 8537221546421115709}
   - component: {fileID: 6367743423800456729}
   - component: {fileID: 6360463667395634183}
-  - component: {fileID: 9158576992400278130}
+  - component: {fileID: 3168448610126476649}
   - component: {fileID: 1537107450776595620}
   - component: {fileID: 514603957216932305}
   m_Layer: 0
-  m_Name: Enemy
+  m_Name: Enemy_Green
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -93,7 +93,7 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!136 &9158576992400278130
+--- !u!136 &3168448610126476649
 CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -155,4 +155,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b423ce1504fba44d8554b56f726f0ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Enemy
-  enemyData: {fileID: 0}
+  enemyData: {fileID: 11400000, guid: 14ca061bed5a91c4bb82a4aad62fb540, type: 2}

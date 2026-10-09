@@ -5,8 +5,8 @@
 public static class HealthEventManager
 {
     // A DELEGATE defines the SHAPE of a method:
-    // "returns void, takes one int" - any method matching that shape can subscribe.
-    public delegate void HealthEvent(int currentHealth);
+    // "returns void, takes a string and an int" - any method matching that shape can subscribe
+    public delegate void HealthEvent(string name, int currentHealth);
 
     // Called when any object implementing IDamagable takes damage
     public static HealthEvent OnObjectDamaged;

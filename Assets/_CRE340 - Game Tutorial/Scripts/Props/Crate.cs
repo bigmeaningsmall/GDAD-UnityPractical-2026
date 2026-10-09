@@ -28,17 +28,21 @@ public class Crate : MonoBehaviour, IDamagable
     public void TakeDamage(int damage)
     {
         health -= damage;
-        
-        // Broadcast that something was damaged - we have no idea who (if anyone) is listening.
-        // We MUST check for null first - see the explanation below.
+
+        // Now passing TWO things - the name of this object, and the health left
         if (HealthEventManager.OnObjectDamaged != null)
         {
-            HealthEventManager.OnObjectDamaged(health);
+            HealthEventManager.OnObjectDamaged(gameObject.name, health);
         }
 
         if (health <= 0)
         {
-            Destroy(gameObject); // crate breaks when health runs out
+            if (HealthEventManager.OnObjectDestroyed != null)
+            {
+                HealthEventManager.OnObjectDestroyed(gameObject.name, health);
+            }
+
+            Destroy(gameObject);
         }
     }
 

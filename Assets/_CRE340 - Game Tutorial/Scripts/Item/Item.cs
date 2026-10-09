@@ -42,10 +42,10 @@ public abstract class Item : MonoBehaviour
     // HealthPotion and ManaPotion get this for free - they don't need ontriggers as its in the base class
     private void OnTriggerEnter(Collider other)
     {
-        // Only react to the Player (we've already tagged the player) 
-        if (other.CompareTag("Player"))
-        {
-            // Find the stats component on whatever just touched us
+        // // Only react to the Player (we've already tagged the player) 
+        // if (other.CompareTag("Player"))
+        // {
+            // Try to get the stats component - if it comes back null then it wasn't the player
             PlayerStats playerStats = other.GetComponent<PlayerStats>();
 
             if (playerStats != null)
@@ -57,7 +57,7 @@ public abstract class Item : MonoBehaviour
                 // Destroy this item now it's been picked up - later we can chain this to eeffects and things..
                 Destroy(this.gameObject);
             }
-        }
+        // }
     }
 
     // A shared method every item has and none of them change - this is  just an example using a simple debugging function

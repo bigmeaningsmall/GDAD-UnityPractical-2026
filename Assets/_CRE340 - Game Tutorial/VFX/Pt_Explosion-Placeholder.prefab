@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5370030272102586100}
   - component: {fileID: 2286625524932562283}
   - component: {fileID: 4107051480326549266}
+  - component: {fileID: 937092978783658577}
   m_Layer: 0
   m_Name: Pt_Explosion-Placeholder
   m_TagString: Untagged
@@ -4854,3 +4855,22 @@ ParticleSystemRenderer:
   m_MeshWeighting1: 1
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
+--- !u!114 &937092978783658577
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 690432455358083634}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22f236aabb205204c87ea77583ceba86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ObjectDestruction
+  destroyAfterTime: 1
+  destructionTime: 3
+  destroyOnCollision: 0
+  collisionDestroyThreshold: 2
+  destroyOffScreen: 0
+  destroyIfIdle: 0
+  idleTimeThreshold: 3

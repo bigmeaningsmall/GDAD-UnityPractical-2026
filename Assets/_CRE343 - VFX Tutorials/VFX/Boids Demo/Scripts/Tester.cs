@@ -1,22 +1,20 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using System.Collections;
 
 public class Tester : MonoBehaviour
 {
-    BoidController controller;
+    [Header("PRESS SPACE TO SPAWN MORE BOIDS")]
+    [SerializeField] BoidController controller;
 
     void Start()
     {
         controller = FindObjectOfType<BoidController>();
     }
-
-    void OnGUI()
-    {
-        if (GUILayout.Button("Spawn (nearby the target)"))
-            controller.Spawn();
-
-        if (GUILayout.Button("Spawn (off-screen)"))
-        {
+    
+    
+    private void Update(){
+        if (Input.GetKeyDown(KeyCode.Space)){
             controller.Spawn(controller.transform.position - controller.transform.forward * 8);
         }
     }

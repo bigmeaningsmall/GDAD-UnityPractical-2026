@@ -28,7 +28,7 @@ public class BoidController : MonoBehaviour
 {
     public GameObject boidPrefab;
 
-    public int spawnCount = 10;
+    public int spawnCount = 40;
 
     public float spawnRadius = 4.0f;
 

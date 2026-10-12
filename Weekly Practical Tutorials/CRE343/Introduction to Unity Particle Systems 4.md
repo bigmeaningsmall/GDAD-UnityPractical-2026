@@ -1,14 +1,3 @@
----
-title: "Introduction to Unity: Particle Systems"
-source: "https://www.kodeco.com/138-introduction-to-unity-particle-systems/page/4"
-author:
-  - "[[anthonyuccello]]"
-published:
-created: 2026-10-09
-description: "Unity’s particle system is both robust and feature packed. In this tutorial, you’ll learn the ins-and-outs of it to create both fire and explosions."
-tags:
-  - "clippings"
----
 # Introduction to Unity Particle Systems 4
 
 ## Changing Colour

@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 // [CreateAssetMenu] adds this to Unity's Create menu so we can make assets from it.
 // fileName is the default name for a new one, menuName is where it appears in the menu.
@@ -14,6 +15,7 @@ public class EnemyData : ScriptableObject
     public float moveSpeed = 2f;      // how fast it chases the player
     public int contactDamage = 5;     // damage it deals by touching the player
 
+    [FormerlySerializedAs("scoreValue")] 
     [Header("Rewards")]
-    public int scoreValue = 10;       // TODO (Week 5) - XP awarded when this enemy dies
+    public int xpValue = 10;       //TODO - THIS WAS REFACTORED
 }

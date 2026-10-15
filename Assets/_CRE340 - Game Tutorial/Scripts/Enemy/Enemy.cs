@@ -62,15 +62,18 @@ public class Enemy : MonoBehaviour, IDamagable
 
     private void Update()
     {
-        // Very simple chase - move straight towards the player at our data's speed
-        if (playerTransform != null)
+        // Ask the GameManager where the player is.
+        // There might not be one - not spawned yet, or dead - so check before using it.
+        if (GameManager.Instance.Player == null)
         {
-            transform.position = Vector3.MoveTowards(
-                transform.position,
-                playerTransform.position,
-                enemyData.moveSpeed * Time.deltaTime
-            );
+            return;
         }
+
+        transform.position = Vector3.MoveTowards(
+            transform.position,
+            GameManager.Instance.Player.transform.position,
+            enemyData.moveSpeed * Time.deltaTime
+        );
     }
 
     public void TakeDamage(int damage)
@@ -109,7 +112,9 @@ public class Enemy : MonoBehaviour, IDamagable
 
     private void Die()
     {
-        // TODO (Week 5) - award enemyData.scoreValue to the GameManager that we haven't built yet
+        // TODO - WE ADDED A SINGLETON MANAGER
+        GameManager.Instance.AddXP(enemyData.xpValue);
+        
         Destroy(gameObject);
     }
     

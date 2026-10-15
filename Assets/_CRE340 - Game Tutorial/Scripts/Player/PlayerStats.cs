@@ -26,6 +26,11 @@ public class PlayerStats : MonoBehaviour, IDamagable
     private Material mat;
     private Color originalColor;
 
+    private void Awake()
+    {
+        // Tell the GameManager we exist, so anything that needs the player can find us through it
+        GameManager.Instance.RegisterPlayer(this);
+    }
     private void Start()
     {
         mat = GetComponent<Renderer>().material;
@@ -94,5 +99,10 @@ public class PlayerStats : MonoBehaviour, IDamagable
         Debug.Log("Player died!");
 
         // TODO (Week 5) - the GameManager will handle game over and restarting
+        
+        // Tell the GameManager - it deals with lives and respawning
+        GameManager.Instance.PlayerDied();
+
+        Destroy(gameObject);
     }
 }

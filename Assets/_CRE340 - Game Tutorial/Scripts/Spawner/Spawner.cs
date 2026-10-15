@@ -57,6 +57,12 @@ public class Spawner : MonoBehaviour
             float waitTime = Random.Range(minSpawnInterval, maxSpawnInterval);
             yield return new WaitForSeconds(waitTime);
 
+            // Stop spawning once the game is over
+            if (GameManager.Instance.IsGameOver)
+            {
+                yield break;   // ends this coroutine completely
+            }
+
             // Tidy the list before we check how many are alive
             CleanUpList();
 

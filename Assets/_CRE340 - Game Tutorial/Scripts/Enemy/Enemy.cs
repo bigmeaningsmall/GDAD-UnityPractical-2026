@@ -112,7 +112,7 @@ public class Enemy : MonoBehaviour, IDamagable
 
     private void Die()
     {
-        // TODO - WE ADDED A SINGLETON MANAGER
+        // TODO - WE ADDED A SINGLETON MANAGER SO NOW WE CABN CALL IT EASILY FROM HERE
         GameManager.Instance.AddXP(enemyData.xpValue);
         
         Destroy(gameObject);

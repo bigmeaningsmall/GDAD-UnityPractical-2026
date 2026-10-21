@@ -42,22 +42,22 @@ public abstract class Item : MonoBehaviour
     // HealthPotion and ManaPotion get this for free - they don't need ontriggers as its in the base class
     private void OnTriggerEnter(Collider other)
     {
-        // // Only react to the Player (we've already tagged the player) 
-        // if (other.CompareTag("Player"))
-        // {
-            // Try to get the stats component - if it comes back null then it wasn't the player
-            PlayerStats playerStats = other.GetComponent<PlayerStats>();
+        //TODO - SHOULD HAVE MADE THIS A ICollectable Interface -ah well.. 
+        
 
-            if (playerStats != null)
-            {
-                // THIS is the polymorphic call. - see 'polymorphism' meaning 'many forms'
-                // We are on a plain 'Item' here, but the version of Use() that runs is the one belonging to the ACTUAL type (HealthPotion, ManaPotion, ...)
-                Use(playerStats);
+        // Try to get the stats component - if it comes back null then it wasn't the player
+        PlayerStats playerStats = other.GetComponent<PlayerStats>();
 
-                // Destroy this item now it's been picked up - later we can chain this to eeffects and things..
-                Destroy(this.gameObject);
-            }
-        // }
+        if (playerStats != null)
+        {
+            // THIS is the polymorphic call. - see 'polymorphism' meaning 'many forms'
+            // We are on a plain 'Item' here, but the version of Use() that runs is the one belonging to the ACTUAL type (HealthPotion, ManaPotion, ...)
+            Use(playerStats);
+
+            // Destroy this item now it's been picked up - later we can chain this to eeffects and things..
+            Destroy(this.gameObject);
+        }
+
     }
 
     // A shared method every item has and none of them change - this is  just an example using a simple debugging function

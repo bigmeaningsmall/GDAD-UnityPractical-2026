@@ -14,16 +14,18 @@ public class EventLogger : MonoBehaviour
 
     private void OnEnable()
     {
-        // Subscribe to events
         HealthEventManager.OnObjectDamaged += HandleObjectDamaged;
         HealthEventManager.OnObjectDestroyed += HandleObjectDestroyed;
+
+        EventBus<EnemyKilled>.Subscribe(HandleEnemyKilled);
     }
 
     private void OnDisable()
     {
-        // Unsubscribe from events to avoid memory leaks
         HealthEventManager.OnObjectDamaged -= HandleObjectDamaged;
         HealthEventManager.OnObjectDestroyed -= HandleObjectDestroyed;
+
+        EventBus<EnemyKilled>.Unsubscribe(HandleEnemyKilled);
     }
 
     private void HandleObjectDamaged(string name, int remainingHealth)
@@ -41,6 +43,11 @@ public class EventLogger : MonoBehaviour
 
         Debug.Log(message);
         AddToLog(message);
+    }
+    
+    private void HandleEnemyKilled(EnemyKilled message)
+    {
+        AddToLog("<color=yellow>" + message.enemyName + " killed - " + message.xpValue + " XP</color>");
     }
 
     // Add a message to the log, keeping only the most recent lines

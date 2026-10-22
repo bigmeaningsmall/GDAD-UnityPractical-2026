@@ -61,6 +61,21 @@ public class GameManager : MonoBehaviour
         get { return lives; }
     }
 
+    private void OnEnable()
+    {
+        EventBus<EnemyKilled>.Subscribe(HandleEnemyKilled);
+    }
+
+    private void OnDisable()
+    {
+        EventBus<EnemyKilled>.Unsubscribe(HandleEnemyKilled);
+    }
+
+    private void HandleEnemyKilled(EnemyKilled message)
+    {
+        AddXP(message.xpValue);
+    }
+    
     private void Start()
     {
         SpawnPlayer();

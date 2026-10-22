@@ -1811,6 +1811,7 @@ MonoBehaviour:
   prefabsToSpawn:
   - {fileID: 3824412564942140902, guid: a7d3af054ab14b3438198551ad4750e5, type: 3}
   - {fileID: 4804579472648404048, guid: bbf43ba613ecbfc44899d5326216409b, type: 3}
+  - {fileID: 9205048344955532940, guid: cfcedc154e62c6d489bb8ecbf04fc552, type: 3}
   spawnArea: {x: 10, y: 0, z: 10}
   spawnHeight: 1
   spawnOnStart: 0
@@ -2303,6 +2304,51 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 832575517}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &836879207
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 836879209}
+  - component: {fileID: 836879208}
+  m_Layer: 0
+  m_Name: Enemy Death Effects
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &836879208
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 836879207}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f20d11eb410dad47bdc7d84edc7fca7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyDeathEffects
+  deathEffectPrefab: {fileID: 4787146697146794734, guid: e9050f838eb01db44b8958e4d8266866, type: 3}
+--- !u!4 &836879209
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 836879207}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -5323,3 +5369,4 @@ SceneRoots:
   - {fileID: 8700492416435596032}
   - {fileID: 1835090969}
   - {fileID: 973448594}
+  - {fileID: 836879209}

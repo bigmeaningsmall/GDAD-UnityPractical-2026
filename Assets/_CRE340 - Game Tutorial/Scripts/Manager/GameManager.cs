@@ -85,7 +85,7 @@ public class GameManager : MonoBehaviour
     {
         lives = lives - 1;
 
-        Debug.Log("Player died. Lives left: " + lives);
+        UIEventManager.LivesChanged(lives);
 
         if (lives > 0)
         {
@@ -121,7 +121,7 @@ public class GameManager : MonoBehaviour
     {
         isGameOver = true;
 
-        Debug.Log("GAME OVER - Coins: " + coins + "   XP: " + xp);
+        UIEventManager.GameOver();
 
         StartCoroutine(RestartAfterDelay());
     }
@@ -157,13 +157,17 @@ public class GameManager : MonoBehaviour
     public void AddCoins(int amount)
     {
         coins = coins + amount;
-        Debug.Log("Coins: " + coins);
+
+        // Announce it. No idea what's listening and we don't have to know
+        UIEventManager.CoinsChanged(coins);
     }
 
     public void AddXP(int amount)
     {
         xp = xp + amount;
-        Debug.Log("XP: " + xp);
+
+        //same thing we just announce the value has changed
+        UIEventManager.XPChanged(xp);
     }
 
     #endregion

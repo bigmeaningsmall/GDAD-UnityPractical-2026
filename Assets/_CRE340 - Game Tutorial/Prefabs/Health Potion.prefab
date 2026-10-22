@@ -128,7 +128,7 @@ MonoBehaviour:
   data:
     itemName: Generic Item
     description: A generic item that does things.
-  itemColor: {r: 0.3726415, g: 1, b: 0.62185466, a: 1}
+  itemColor: {r: 0, g: 0.9433962, b: 0.14088783, a: 1}
   rotationSpeed: 100
   healthRestoreAmount: 0
   minRestoreAmount: 30

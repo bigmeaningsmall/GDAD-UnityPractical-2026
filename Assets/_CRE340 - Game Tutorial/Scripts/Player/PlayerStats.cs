@@ -35,6 +35,10 @@ public class PlayerStats : MonoBehaviour, IDamagable
     {
         mat = GetComponent<Renderer>().material;
         originalColor = mat.color;
+
+        // A new player has appeared - tell the UI what our stats are
+        UIEventManager.HealthChanged(data.currentHealth, data.maxHealth);
+        UIEventManager.ManaChanged(data.currentMana, data.maxMana);
     }
 
     // Add health, but never go above maxHealth
@@ -43,7 +47,7 @@ public class PlayerStats : MonoBehaviour, IDamagable
         data.currentHealth = data.currentHealth + amount;
         data.currentHealth = Mathf.Clamp(data.currentHealth, 0, data.maxHealth);
 
-        Debug.Log("Player health is now " + data.currentHealth + " / " + data.maxHealth);
+        UIEventManager.HealthChanged(data.currentHealth, data.maxHealth);
     }
 
     // Add mana, but never go above maxMana
@@ -52,7 +56,7 @@ public class PlayerStats : MonoBehaviour, IDamagable
         data.currentMana = data.currentMana + amount;
         data.currentMana = Mathf.Clamp(data.currentMana, 0, data.maxMana);
 
-        Debug.Log("Player mana is now " + data.currentMana + " / " + data.maxMana);
+        UIEventManager.ManaChanged(data.currentMana, data.maxMana);
     }
 
     // Required by IDamagable - take damage the same way anything else in the game does
@@ -60,6 +64,8 @@ public class PlayerStats : MonoBehaviour, IDamagable
     {
         data.currentHealth = data.currentHealth - damage;
         data.currentHealth = Mathf.Clamp(data.currentHealth, 0, data.maxHealth);
+        
+        UIEventManager.HealthChanged(data.currentHealth, data.maxHealth);
 
         // Broadcast it, exactly like the crates and enemies do.
         // The event logger picks this up without us doing anything else.

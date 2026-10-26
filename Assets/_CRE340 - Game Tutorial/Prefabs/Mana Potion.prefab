@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 8762083315791331024}
   - component: {fileID: 1776915931989507501}
   - component: {fileID: 1818468218382936636}
+  - component: {fileID: 2990842227024912179}
   m_Layer: 0
   m_Name: Mana Potion
   m_TagString: Untagged
@@ -133,3 +134,18 @@ MonoBehaviour:
   manaRestoreAmount: 0
   minRestoreAmount: 20
   maxRestoreAmount: 50
+--- !u!114 &2990842227024912179
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4804579472648404048}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a242a24c26dc9547ac36f0aff6a6370, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SpawnPop
+  duration: 0.3
+  ease: 25
+  startDelay: 0

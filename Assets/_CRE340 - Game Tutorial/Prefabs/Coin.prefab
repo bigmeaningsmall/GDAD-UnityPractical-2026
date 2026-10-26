@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 5604898759472913488}
   - component: {fileID: 6515676092849192457}
   - component: {fileID: 57345960967191564}
+  - component: {fileID: 8838798458348359494}
   m_Layer: 0
   m_Name: Coin
   m_TagString: Untagged
@@ -131,3 +132,18 @@ MonoBehaviour:
   itemColor: {r: 1, g: 1, b: 1, a: 1}
   rotationSpeed: 400
   coinValue: 1
+--- !u!114 &8838798458348359494
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9205048344955532940}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a242a24c26dc9547ac36f0aff6a6370, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SpawnPop
+  duration: 0.3
+  ease: 27
+  startDelay: 0

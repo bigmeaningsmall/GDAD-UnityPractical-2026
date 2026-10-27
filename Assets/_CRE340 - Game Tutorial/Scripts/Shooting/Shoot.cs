@@ -62,13 +62,7 @@ public class Shoot : MonoBehaviour
         // Update the last shoot time to enforce the cooldown
         lastShootTime = Time.time;
 
-        // --- NEW - announce that a shot was fired ---
-        WeaponFired message = new WeaponFired();
-        message.position = bulletSpawnPoint.position;
-        message.direction = bulletDirection;
+        // --- NEW - todo announce that a shot was fired - add the week 6 code here... ---
 
-        EventBus<WeaponFired>.Publish(message);
-        
-        Debug.Log("WeaponFired published at " + message.position);
     }
 }

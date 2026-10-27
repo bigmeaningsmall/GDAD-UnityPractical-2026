@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 8557218827905392508}
   - component: {fileID: 1446976757997281880}
   - component: {fileID: 1646230606361580955}
-  - component: {fileID: -4041083901502057325}
   m_Layer: 0
   m_Name: Health Potion
   m_TagString: Untagged
@@ -134,18 +133,3 @@ MonoBehaviour:
   healthRestoreAmount: 0
   minRestoreAmount: 30
   maxRestoreAmount: 70
---- !u!114 &-4041083901502057325
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3824412564942140902}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4a242a24c26dc9547ac36f0aff6a6370, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SpawnPop
-  duration: 0.3
-  ease: 25
-  startDelay: 0

@@ -47,7 +47,6 @@ GameObject:
   - component: {fileID: 6689284765851377245}
   - component: {fileID: 7262351289442594133}
   - component: {fileID: 6137619912153512062}
-  - component: {fileID: -1463470169105518563}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -236,21 +235,6 @@ MonoBehaviour:
     currentMana: 20
     maxMana: 100
   mat: {fileID: 0}
---- !u!114 &-1463470169105518563
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 549597671983125512}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4a242a24c26dc9547ac36f0aff6a6370, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SpawnPop
-  duration: 0.5
-  ease: 24
-  startDelay: 0
 --- !u!1 &2472450579939808116
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,3 +1,7 @@
+---
+Order: 6-C
+---
+
 
 # **CRE343 Week 6 - Part 1 : Tweening and Spawn Feel**
 

@@ -1,3 +1,7 @@
+---
+Order: 6-E
+---
+
 # **CRE343 Week 6 - Part 3 : Screen and UI Juice**
 
 ### Overview

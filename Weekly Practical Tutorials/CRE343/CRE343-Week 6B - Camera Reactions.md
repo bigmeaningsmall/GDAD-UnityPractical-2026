@@ -1,3 +1,7 @@
+---
+Order: 6-D
+---
+
 
 # **CRE343 Week 6 - Part 2 : Camera Reactions**
 
@@ -90,7 +94,7 @@ void Fire()
 }
 ```
 
-That's the entire change to the gameplay code for this whole session. Four lines and a struct.
+That's the entire change to the gameplay code for this whole session. Four lines and a struct. This part below is the events we already have in our game.
 
 **From `UIEventManager`:**
 
@@ -129,7 +133,9 @@ OnObjectDestroyed(string name, int currentHealth)
 ### **Step 2: Check Your Cinemachine Version**
 
 The provided scene has a Cinemachine camera following the player.
-- I added a Cinemachine Follow camera to the scene and a script attached to it to get the player from the `GameManager` and use them as the tracked target for the camera
+- I added a Cinemachine Follow camera to the scene and a script attached to it to get the player from the `GameManager` and use them as the tracked target for the camera.
+	- You just need to enable the `CameraFollowPlayer` script that is attached to the Cinemachine camera
+- Because we are instantiating the player then we need to get them as the camera target each time they are instantiated.
 
 The code here is written for **Cinemachine 3.x**. If you're on 2.x, change the `using` line and the property names and everything else works the same.
 
@@ -158,7 +164,9 @@ We'll use both, for the jobs they suit.
 1. **Check the setup** - the Cinemachine camera should have a **Cinemachine Impulse Listener** component 
 	1. you can do this by going to AddExtension on the CineMachine Virtual Camera
 2. There should be an empty GameObject called **Impulse Source** with a **Cinemachine Impulse Source** on it. 
-	1. You need to create this too and add the component `Cinemachine Impulse Source`
+	1. I have it deactivated as a child of the cinemachine camera in the scene - I'd encourage you to make your own so you do the steps to add it.
+	2. You need to create this too and add the component `Cinemachine Impulse Source`
+*Cinemachine is a lot of steps to do things but its great once you get it setup - just a pain to deal with because it can do every conceivable camera and cinematic effect*
 3. **Create a script called `CameraShake.cs`** and attach it to the Impulse Source object:
 
 ```csharp
@@ -222,8 +230,6 @@ public class CameraShake : MonoBehaviour
 ```
 
 1. **Press Play** and hold fire.
-
-*Cinemachine is a lot of steps to do things but its great once you get it setup - just a pain to deal with because it can do every conceivable camera and cinematic effect*
 
 **Explanation**:
 

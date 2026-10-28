@@ -22,7 +22,8 @@ public class SpawnPop : MonoBehaviour
 
     private void Start()
     {
-        // Tween.Scale(transform, endValue: fullSize, duration: duration, ease: ease, startDelay: startDelay);
+        
+        //Tween.Scale(transform, endValue: fullSize, duration: duration, ease: ease, startDelay: startDelay);
         
         Sequence.Create()
             .Chain(Tween.Scale(transform, endValue: fullSize * 1.3f, duration: duration * 0.6f, ease: Ease.OutQuad))

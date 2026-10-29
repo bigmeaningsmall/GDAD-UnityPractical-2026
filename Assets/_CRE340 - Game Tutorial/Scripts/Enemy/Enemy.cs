@@ -58,6 +58,8 @@ public class Enemy : MonoBehaviour, IDamagable
         {
             playerTransform = player.transform;
         }
+        
+        // todo - call sound for enemy spawn
     }
 
     private void Update()
@@ -94,6 +96,8 @@ public class Enemy : MonoBehaviour, IDamagable
 
             Die();
         }
+        
+        //todo call sound here or earlier? - sound will trigger if hit but object destroyed if dead
     }
 
     public void ShowHitEffect()
@@ -128,6 +132,8 @@ public class Enemy : MonoBehaviour, IDamagable
 
         // Announce it. We have no idea whats listening. 
         EventBus<EnemyKilled>.Publish(message);
+        
+        //todo call the death sound here
 
         Destroy(gameObject);
     }

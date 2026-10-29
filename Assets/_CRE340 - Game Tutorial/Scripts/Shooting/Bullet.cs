@@ -28,6 +28,8 @@ public class Bullet : MonoBehaviour
 
             // The Health property lets us ASK the target a question without knowing what it is 
             Debug.Log("Hit something - " + damageable.Health + " health remaining");
+            
+            //todo sound - we can call the sound here so its the same for all or... make sound dependant on object hit?
         }
     }
 }

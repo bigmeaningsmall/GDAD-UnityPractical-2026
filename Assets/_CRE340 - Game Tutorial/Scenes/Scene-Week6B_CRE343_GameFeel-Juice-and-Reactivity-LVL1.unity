@@ -3633,7 +3633,7 @@ MonoBehaviour:
   spawnArea: {x: 20, y: 0, z: 20}
   spawnHeight: 1
   spawnOnStart: 1
-  startingAmount: 5
+  startingAmount: 20
   spawnContinuously: 1
   minSpawnInterval: 2
   maxSpawnInterval: 5
@@ -5075,7 +5075,7 @@ MonoBehaviour:
   respawnDelay: 2
   lives: 3
   isGameOver: 0
-  restartDelay: 5
+  restartDelay: 6
   coins: 0
   xp: 0
 --- !u!4 &1835090969
@@ -5515,7 +5515,7 @@ MonoBehaviour:
   flashUp: 0.05
   flashDown: 0.6
   aberrationStrength: 0.6
-  desaturateTime: 1.2
+  desaturateTime: 4
 --- !u!4 &2103277083
 Transform:
   m_ObjectHideFlags: 0

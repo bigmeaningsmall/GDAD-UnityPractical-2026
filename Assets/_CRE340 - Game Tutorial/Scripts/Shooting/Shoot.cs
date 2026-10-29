@@ -70,5 +70,7 @@ public class Shoot : MonoBehaviour
         EventBus<WeaponFired>.Publish(message);
         
         Debug.Log("WeaponFired published at " + message.position);
+        
+        //TODO - We'll make the sound event here - could use the existing event system but we'll use an audiomanager event setup
     }
 }

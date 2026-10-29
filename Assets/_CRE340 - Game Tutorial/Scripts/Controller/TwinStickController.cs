@@ -65,6 +65,8 @@ public class TwinStickController : MonoBehaviour
             isDashing = true;
             startDashTime = Time.time;
             lastDashTime = Time.time;
+            
+            //TODO test - play dash sound effect here and a trail
         }
 
         // End the dash once dashTime seconds have passed since it started

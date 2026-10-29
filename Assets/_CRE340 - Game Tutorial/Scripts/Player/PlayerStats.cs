@@ -48,6 +48,8 @@ public class PlayerStats : MonoBehaviour, IDamagable
         data.currentHealth = Mathf.Clamp(data.currentHealth, 0, data.maxHealth);
 
         UIEventManager.HealthChanged(data.currentHealth, data.maxHealth);
+        
+        //todo - restore sound call
     }
 
     // Add mana, but never go above maxMana
@@ -57,6 +59,8 @@ public class PlayerStats : MonoBehaviour, IDamagable
         data.currentMana = Mathf.Clamp(data.currentMana, 0, data.maxMana);
 
         UIEventManager.ManaChanged(data.currentMana, data.maxMana);
+        
+        //todo - restore sound call
     }
 
     // Required by IDamagable - take damage the same way anything else in the game does
@@ -66,6 +70,8 @@ public class PlayerStats : MonoBehaviour, IDamagable
         data.currentHealth = Mathf.Clamp(data.currentHealth, 0, data.maxHealth);
         
         UIEventManager.HealthChanged(data.currentHealth, data.maxHealth);
+        
+        //todo - damage sound call
 
         // Broadcast it, exactly like the crates and enemies do.
         // The event logger picks this up without us doing anything else.
@@ -102,6 +108,8 @@ public class PlayerStats : MonoBehaviour, IDamagable
             HealthEventManager.OnObjectDestroyed(gameObject.name, data.currentHealth);
         }
 
+        //todo dead player sound
+        
         Debug.Log("Player died!");
 
         // TODO (Week 5) - the GameManager will handle game over and restarting

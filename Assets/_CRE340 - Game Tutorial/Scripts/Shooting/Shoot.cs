@@ -38,10 +38,10 @@ public class Shoot : MonoBehaviour
             Fire();
         }
         //todo buttons need changed 
-        // if (inputManager.ButtonSouth.Held() && Time.time > lastShootTime + shootCooldown)
-        // {
-        //     Fire();
-        // }
+        if (inputManager.ButtonSouth.Held() && Time.time > lastShootTime + shootCooldown)
+        {
+            Fire();
+        }
     }
 
     void Fire()

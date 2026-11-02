@@ -26868,7 +26868,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1381253051}
-  - component: {fileID: 1381253050}
+  - component: {fileID: 1381253052}
   m_Layer: 0
   m_Name: Enemy Spawner
   m_TagString: Untagged
@@ -26876,30 +26876,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1381253050
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1381253049}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 55c1f40a3a685ec4ca99f5dd1f013bd6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Spawner
-  prefabsToSpawn:
-  - {fileID: 9115745409492772610, guid: ba36f61e25c869141816590ad9960d23, type: 3}
-  - {fileID: 9115745409492772610, guid: db967f2978c52de48ac24ad34d026203, type: 3}
-  spawnArea: {x: 20, y: 0, z: 20}
-  spawnHeight: 1
-  spawnOnStart: 1
-  startingAmount: 5
-  spawnContinuously: 1
-  minSpawnInterval: 1
-  maxSpawnInterval: 5
-  maxAlive: 20
-  spawnedObjects: []
 --- !u!4 &1381253051
 Transform:
   m_ObjectHideFlags: 0
@@ -26915,6 +26891,30 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1381253052
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1381253049}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db77eaf66f50d704993050e8c1e1e394, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemySpawner
+  enemyTypes:
+  - {fileID: 11400000, guid: 14ca061bed5a91c4bb82a4aad62fb540, type: 2}
+  - {fileID: 11400000, guid: 2ce582714532ef247a325b303e38f22a, type: 2}
+  spawnArea: {x: 20, y: 0, z: 20}
+  spawnHeight: 0.5
+  spawnOnStart: 1
+  startingAmount: 5
+  spawnContinuously: 0
+  minSpawnInterval: 2
+  maxSpawnInterval: 5
+  maxAlive: 20
+  spawnedEnemies: []
 --- !u!1 &1381542289
 GameObject:
   m_ObjectHideFlags: 0
@@ -28611,7 +28611,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -20, y: -49.599976}
+  m_AnchoredPosition: {x: -20, y: -49.600098}
   m_SizeDelta: {x: 512, y: 50}
   m_Pivot: {x: 1, y: 1}
 --- !u!222 &1488603741

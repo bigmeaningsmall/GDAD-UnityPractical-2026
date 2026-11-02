@@ -12,9 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbcb6879633105e4ab7ac5860fcac339, type: 3}
   m_Name: Bad Guy - Green
   m_EditorClassIdentifier: Assembly-CSharp::EnemyData
+  enemyPrefab: {fileID: 9115745409492772610, guid: 984d9f8e74e66e64ea775d13a4da8f8b, type: 3}
   enemyName: Green Dude
   enemyColor: {r: 0, g: 0.7411765, b: 0, a: 1}
   startingHealth: 4
   moveSpeed: 3
   contactDamage: 5
-  scoreValue: 10
+  xpValue: 10

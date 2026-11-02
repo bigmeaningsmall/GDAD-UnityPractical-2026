@@ -28,21 +28,22 @@ public class Enemy : MonoBehaviour, IDamagable
 
     private void Awake()
     {
-        // Safety check - without data we can't set anything up
-        if (enemyData == null)
+        // An enemy placed in the scene by hand already has its data, so set up now. means we can have enemies in the scene already or instantiate them
+        // Enemies made by the factory arrive and get Initialise called instead.
+        if (enemyData != null)
         {
-            Debug.LogError("Enemy on " + gameObject.name + " has no EnemyData assigned!");
-            return;
+            Initialise(enemyData);
         }
+    }
 
-        // COPY the authored values into our own runtime state.
-        // From here on we change our 'health', never 'enemyData.startingHealth'.
+    // Everything that used to be in Awake. The factory calls this after creating us.
+    public void Initialise(EnemyData data)
+    {
+        enemyData = data;
+
         health = enemyData.startingHealth;
-
-        // Use the name from the data - this also tidies up the '(Clone)' we saw in Part 1
         gameObject.name = enemyData.enemyName;
 
-        // Apply the colour from the data
         mat = GetComponent<Renderer>().material;
         mat.color = enemyData.enemyColor;
         originalColor = mat.color;

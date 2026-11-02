@@ -169,43 +169,112 @@ public static class EnemyFactory
 
 The existing `Spawner` works from a `GameObject[]` of prefabs, which is still right for the items. Enemies now come from data, so they get their own version.
 
-1. **Duplicate `Spawner.cs`.** Leave the original alone - it's still spawning the items. Rename the **copy**, both the file and the class inside it, to **`EnemySpawner`**.
-2. Make these three changes **to the copy**. Everything else stays exactly as it is.
+**Create a C# script called `EnemySpawner.cs`** and paste in the following.
 
-**The array holds data, not prefabs:**
+It's the Week 4 `Spawner` with four things changed:
+
+- The **array** holds `EnemyData` instead of `GameObject`
+- The **list** holds `Enemy` instead of `GameObject`
+- **`SpawnOne`** asks the factory instead of calling `Instantiate`
+- Every `spawnedObjects` is now `spawnedEnemies`
+
+Everything else - spawn area, intervals, `maxAlive`, the game over check, the backwards loop, the gizmo - is untouched.
 
 ```csharp
-    // was:  public GameObject[] prefabsToSpawn;
-    public EnemyData[] enemyTypes;
-```
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
-**The list holds enemies:**
+// Spawns enemies at intervals using the factory.
+// Same shape as Spawner, but it works from EnemyData assets rather than prefabs.
+public class EnemySpawner : MonoBehaviour
+{
+    [Header("What to spawn")]
+    public EnemyData[] enemyTypes;      // data assets, not prefabs
 
-```csharp
-    // was:  private List<GameObject> spawnedObjects = new List<GameObject>();
+    [Header("Where to spawn")]
+    public Vector3 spawnArea = new Vector3(20f, 0f, 20f);  // width, height, depth
+    public float spawnHeight = 0.5f;                       // how high off the floor
+
+    [Header("Spawn at the start")]
+    public bool spawnOnStart = true;
+    public int startingAmount = 5;
+
+    [Header("Keep spawning")]
+    public bool spawnContinuously = false;
+    public float minSpawnInterval = 2f;
+    public float maxSpawnInterval = 5f;
+    public int maxAlive = 20;    // stop spawning once we hit this many
+
+    // LIST - every enemy this spawner has created and that is still alive
+    [SerializeField]
     private List<Enemy> spawnedEnemies = new List<Enemy>();
-```
 
-**`SpawnOne` asks the factory instead of instantiating:**
+    void Start()
+    {
+        // Spawn a batch straight away
+        if (spawnOnStart)
+        {
+            for (int i = 0; i < startingAmount; i++)
+            {
+                SpawnOne();
+            }
+        }
 
-```csharp
+        // Start the loop that keeps spawning over time
+        if (spawnContinuously)
+        {
+            StartCoroutine(SpawnLoop());
+        }
+    }
+
+    // Coroutine that spawns forever at random intervals
+    private IEnumerator SpawnLoop()
+    {
+        while (true)
+        {
+            // Wait a random amount of time before the next spawn
+            float waitTime = Random.Range(minSpawnInterval, maxSpawnInterval);
+            yield return new WaitForSeconds(waitTime);
+
+            // Stop spawning once the game is over
+            if (GameManager.Instance.IsGameOver)
+            {
+                yield break;   // ends this coroutine completely
+            }
+
+            // Tidy the list before we check how many are alive
+            CleanUpList();
+
+            if (spawnedEnemies.Count < maxAlive)
+            {
+                SpawnOne();
+            }
+        }
+    }
+
+    // Spawn a single random enemy type from the array
     private void SpawnOne()
     {
+        // Nothing assigned in the Inspector, so there's nothing we can do
         if (enemyTypes.Length == 0)
         {
-            Debug.LogWarning("EnemySpawner has no enemy types assigned!");
+            Debug.LogWarning("EnemySpawner on " + gameObject.name + " has no enemy types assigned!");
             return;
         }
 
+        // Pick a random slot from the array
         int randomIndex = Random.Range(0, enemyTypes.Length);
         EnemyData chosenType = enemyTypes[randomIndex];
 
+        // Pick a random position inside the spawn area
         Vector3 randomPosition = new Vector3(
             Random.Range(-spawnArea.x / 2, spawnArea.x / 2),
             spawnHeight,
             Random.Range(-spawnArea.z / 2, spawnArea.z / 2)
         );
 
+        // Offset by this spawner's own position so the area follows the object
         randomPosition = randomPosition + transform.position;
 
         // Ask the factory for an enemy. We don't know or care how it makes one.
@@ -216,24 +285,53 @@ The existing `Spawner` works from a `GameObject[]` of prefabs, which is still ri
             spawnedEnemies.Add(newEnemy);
         }
     }
-```
 
-Then fix the remaining `spawnedObjects` references in `SpawnLoop`, `CleanUpList` and `GetAliveCount` to `spawnedEnemies`. Your editor's rename refactor will do it in one go.
+    // Remove anything from the list that has been destroyed
+    private void CleanUpList()
+    {
+        // Loop BACKWARDS when removing from a list
+        for (int i = spawnedEnemies.Count - 1; i >= 0; i--)
+        {
+            if (spawnedEnemies[i] == null)
+            {
+                spawnedEnemies.RemoveAt(i);
+            }
+        }
+    }
+
+    // Handy for debugging - how many of our enemies are still alive
+    public int GetAliveCount()
+    {
+        CleanUpList();
+        return spawnedEnemies.Count;
+    }
+
+    // Draw the spawn area in the editor so we can see it
+    void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireCube(transform.position, spawnArea);
+    }
+}
+```
 
 **Explanation**:
 
 - **You now have two spawner scripts.** `Spawner` for the items, working from prefabs exactly as it did. `EnemySpawner` for the enemies, working from data.
-- Everything else carries over - spawn area, intervals, `maxAlive`, the game over check, the backwards loop, the gizmo. That was all made in Week 4 and none of it needed changing.
+- Everything except the type of the array, the type of the list, and `SpawnOne` is identical to the original spawner. That was all written in Week 4 and does a simple spawning job
 - **The only real difference is the input.** Prefabs became data, and one `Instantiate` became one call to the factory.
 - `EnemyFactory.CreateEnemy` is now the only line that knows an enemy gets made at all.
+- The gizmo is red rather than green so you can tell the two spawn areas apart in the Scene view. 
+	- Handy stuff the gizmos!
 
-> [!note] **Note - didn't we merge the spawners in Week 4?**
+> [!note] **Note - didn't we merge the spawners already**
 > 
-> We did, and that was right. The two we merged were doing the **same job** - take a prefab, put a copy somewhere.
+> Yes. The two we merged were doing the same job - take a prefab, put a copy somewhere.
 > 
-> This one takes a **data asset** and asks a factory to produce something. Same shape, different input.
+> This one takes a data asset and asks a factory to produce something. The idea and structure are the same but the input is different.
 > 
-> Worth noticing the two classes are now mostly identical though, and if you added a third you'd want to do something about it - a shared base class with the spawning logic in it, and each one overriding how it makes the thing. We're not doing it for two, but it's the obvious next move if it grows.
+> Worth noticing the two classes are now mostly identical though, and if you added a third you'd want to do something about it - a shared base class with the spawning logic in it, and each one overriding how it makes the thing. We're not doing it for two, but it's the potential next move if it were to grow.
+
 
 ---
 

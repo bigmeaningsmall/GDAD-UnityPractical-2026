@@ -19,3 +19,4 @@ MonoBehaviour:
   moveSpeed: 3
   contactDamage: 5
   xpValue: 10
+  chaseRange: 12

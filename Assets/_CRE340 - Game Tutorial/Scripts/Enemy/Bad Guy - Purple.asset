@@ -13,9 +13,10 @@ MonoBehaviour:
   m_Name: Bad Guy - Purple
   m_EditorClassIdentifier: Assembly-CSharp::EnemyData
   enemyPrefab: {fileID: 9115745409492772610, guid: 984d9f8e74e66e64ea775d13a4da8f8b, type: 3}
-  enemyName: Green Dude
-  enemyColor: {r: 0, g: 0.7411765, b: 0, a: 1}
-  startingHealth: 4
-  moveSpeed: 3
-  contactDamage: 5
-  xpValue: 10
+  enemyName: Purple Dude
+  enemyColor: {r: 0.7830189, g: 0, b: 0.56067634, a: 1}
+  startingHealth: 2
+  moveSpeed: 6
+  contactDamage: 10
+  xpValue: 20
+  chaseRange: 14

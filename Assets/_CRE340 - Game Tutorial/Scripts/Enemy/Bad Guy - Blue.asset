@@ -17,5 +17,6 @@ MonoBehaviour:
   enemyColor: {r: 0, g: 0.33486867, b: 1, a: 1}
   startingHealth: 12
   moveSpeed: 1.5
-  contactDamage: 15
+  contactDamage: 20
   xpValue: 25
+  chaseRange: 8

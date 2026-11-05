@@ -21,4 +21,7 @@ public class EnemyData : ScriptableObject
     [FormerlySerializedAs("scoreValue")] 
     [Header("Rewards")]
     public int xpValue = 10;       //TODO - THIS WAS REFACTORED
+    
+    [Header("Behaviour")]
+    public float chaseRange = 8f;    // how close the player gets before this enemy chases
 }

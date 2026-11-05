@@ -24,10 +24,28 @@ public class Enemy : MonoBehaviour, IDamagable
 
     private Material mat;
     private Color originalColor;
-    private Transform playerTransform;
+
+    // ---------- State ----------
+
+    // The state that is currently running
+    private IEnemyState currentState;
+
+    // Built once in Awake and reused, so changing state doesn't create anything
+    public EnemyState_Idle IdleState { get; private set; }
+    public EnemyState_Chase ChaseState { get; private set; }
+    public EnemyState_Patrol PatrolState { get; private set; }
+
+    // Fired when the state changes - the state label listens to this
+    public event System.Action<string> OnStateChanged;
+    
 
     private void Awake()
     {
+        // The states need nothing from the data, so build them now and keep them.
+        IdleState = new EnemyState_Idle();
+        ChaseState = new EnemyState_Chase();
+        PatrolState = new EnemyState_Patrol();
+        
         // An enemy placed in the scene by hand already has its data, so set up now. means we can have enemies in the scene already or instantiate them
         // Enemies made by the factory arrive and get Initialise called instead.
         if (enemyData != null)
@@ -51,33 +69,61 @@ public class Enemy : MonoBehaviour, IDamagable
 
     private void Start()
     {
-        // Find the player once at the start rather than every frame.
-        // We search for the COMPONENT - if something has PlayerStats, it's the player.
-        PlayerStats player = FindFirstObjectByType<PlayerStats>();
+        // Start runs after Awake and after the factory calls Initialise, so the data is ready by now.
+        SetState(IdleState);
 
-        if (player != null)
-        {
-            playerTransform = player.transform;
-        }
-        
         // todo - call sound for enemy spawn
     }
 
     private void Update()
     {
-        // Ask the GameManager where the player is.
-        // There might not be one - not spawned yet, or dead - so check before using it.
-        if (GameManager.Instance.Player == null)
+        // The chase that used to be here has moved into EnemyState_Chase.
+        if (currentState != null)
+        {
+            currentState.Update(this);
+        }
+    }
+    
+    // Swap to a new state, giving the old one a chance to tidy up first
+    public void SetState(IEnemyState newState)
+    {
+        if (newState == null)
         {
             return;
         }
 
-        transform.position = Vector3.MoveTowards(
-            transform.position,
-            GameManager.Instance.Player.transform.position,
-            enemyData.moveSpeed * Time.deltaTime
-        );
+        if (currentState != null)
+        {
+            currentState.Exit(this);
+        }
+
+        currentState = newState;
+        currentState.Enter(this);
+
+        // Tell anything listening that we've changed
+        if (OnStateChanged != null)
+        {
+            OnStateChanged(currentState.Name);
+        }
     }
+
+    // Idle and Patrol both need this, so it is written once here
+    public bool IsPlayerInRange()
+    {
+        // Ask the GameManager where the player is.
+        // There might not be one - not spawned yet, or dead - so check before using it.
+        if (GameManager.Instance.Player == null)
+        {
+            return false;
+        }
+
+        Transform player = GameManager.Instance.Player.transform;
+
+        float distance = Vector3.Distance(transform.position, player.position);
+
+        return distance < enemyData.chaseRange;
+    }
+    
 
     public void TakeDamage(int damage)
     {

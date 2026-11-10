@@ -1,0 +1,532 @@
+using UnityEngine;
+using System.Collections.Generic;
+using System.Collections;
+
+public class AudioEventSender : MonoBehaviour
+{
+    public AudioTrackType audioTrackType = AudioTrackType.Ambient; // Set the type of audio track this sender will handle
+    
+    [Space(20)]
+    [Tooltip("Optional label used in debug logs to identify this sender. Reserved for future multi-sender filtering.")]
+    public string eventName = ""; // used for debug identification; multi-sender filtering not yet implemented
+
+    [Space(20)]
+    [Header("Attach The AudioSource to Transform -  Null to Attach to AudioManager")]
+    public bool attachToThisTransform;
+    public Transform transformToAttachTo;
+    [Space(10)]
+    [Header("Sound Definition (required)")]
+    [Tooltip("Asset-safe reference to the clip + its defaults. Required - this sender plays nothing without it.")]
+    public SoundDefinition soundDefinition;
+    [Tooltip("Pull volume/pitch/loop/spatialBlend/fade from the Sound Definition. Untick to override with the inspector values below.")]
+    public bool useDefinitionDefaults = true;
+
+    [Space(10)]
+    [Header("Audio Track - Event Parameters")]
+    [Space(20)]
+    public bool playOnEnabled = true;
+    public bool loop = true;
+
+    [Space(10)]
+    [Range(0, 1f)] 
+    public float spatialBlend = 0f;
+    
+    public FadeType fadeType = FadeType.FadeInOut;
+    
+    [Space(5)]
+    [Header("Fade Control")]
+    [Range(0, 10f)]
+    public float fadeDuration = 0.5f;
+    public FadeTarget fadeTarget = FadeTarget.FadeBoth;
+    
+    [Space(5)]
+    [Header("Volume Control")]
+    [Range(0, 1f)]
+    public float volume = 1.0f;
+    [Space(5)]
+    [Header("Pitch Control")]
+    [Range(0, 2f)] public float pitch = 1.0f;
+
+    [Space(10)] 
+    [Range(0,5f)]
+    public float eventDelay = 0f;
+
+    [Header("Collider Settings")]
+    public CollisionType collisionType = CollisionType.Trigger;
+    public string targetTag = "Player";
+    [Tooltip("Action to perform when the target enters the trigger/collision zone")]
+    public TriggerAction onEnterAction = TriggerAction.Play;
+    [Tooltip("Action to perform when the target exits the trigger/collision zone")]
+    public TriggerAction onExitAction  = TriggerAction.Stop;
+
+    [Header("Trigger Zone Visualization")]
+    [Tooltip("Use transform scale and material for trigger zone visualization")]
+    public bool useTransformScale = true;
+    [Tooltip("Show trigger info labels in editor")]
+    public bool showTriggerInfo = true;
+    [Tooltip("Color when trigger is activated")]
+    public Color triggerActiveColor = new Color(0f, 1f, 0f, 0.8f); // Green when active 
+
+    // For showing activation feedback
+    private bool isTriggered = false;
+    private float triggerFeedbackTimer = 0f;
+    private const float TRIGGER_FEEDBACK_DURATION = 0.2f;
+    
+    [Space(20)]
+    [Header("TestMode : 'M' to play, 'N' to stop, 'B' to pause and 'V' to update parameters")]
+    public bool testMode = false;
+
+    
+    private void OnEnable()
+    {
+        if (playOnEnabled)
+        {
+            StartCoroutine(WaitForAudioManagerAndPlay());
+        }
+    }
+
+    private IEnumerator WaitForAudioManagerAndPlay()
+    {
+        // Wait until AudioManager.Instance is not null
+        while (AudioManager.Instance == null)
+        {
+            yield return null; // Wait for the next frame
+        }
+        // Play the sound once AudioManager.Instance is ready
+        Play();
+    }
+
+    // True once this sender has started playback (and hasn't stopped it since). Used so disabling or
+    // unloading a zone only stops the channel when this zone was the one playing on it - a zone that
+    // never played must not cut off music started by code or by another zone.
+    private bool startedPlayback = false;
+
+    private void OnDisable()
+    {
+        if (startedPlayback && AudioManager.Instance != null && AudioManager.Instance.isActiveAndEnabled)
+        {
+            Stop();
+        }
+        startedPlayback = false;
+    }
+    
+    private void OnTriggerEnter(Collider other)
+    {
+        if (collisionType == CollisionType.Trigger && other.CompareTag(targetTag))
+        {
+            TriggerActivation();
+            ExecuteAction(onEnterAction);
+        }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collisionType == CollisionType.Collision && collision.collider.CompareTag(targetTag))
+        {
+            TriggerActivation();
+            ExecuteAction(onEnterAction);
+        }
+    }
+
+    private void TriggerActivation()
+    {
+        isTriggered = true;
+        triggerFeedbackTimer = TRIGGER_FEEDBACK_DURATION;
+    }
+
+    private void Update()
+    {
+        // Handle trigger feedback timer
+        if (isTriggered)
+        {
+            triggerFeedbackTimer -= Time.deltaTime;
+            if (triggerFeedbackTimer <= 0f)
+            {
+                isTriggered = false;
+            }
+        }
+
+        //----------------- EDITOR / TESTING-----------------
+        // This section is only used in the editor to test the events.
+        // Legacy Input only - compiled out when the project uses the new Input System exclusively.
+#if ENABLE_LEGACY_INPUT_MANAGER
+        if (testMode)
+        {
+            if (Input.GetKeyDown(KeyCode.M))
+            {
+                TriggerActivation();
+                Play();
+            }
+            if (Input.GetKeyDown(KeyCode.N))
+            {
+                Stop();
+            }
+            if (Input.GetKeyDown(KeyCode.B))
+            {
+                Pause();
+            }
+
+            if (Input.GetKeyDown(KeyCode.V)){
+                AdjustParameters();
+            }
+        }
+#endif
+    }
+
+    public void Play()
+    {
+        PlayTrack();
+    }
+
+    private void PlayTrack()
+    {
+        if (soundDefinition == null)
+        {
+            AudioDebug.LogUsageWarning($"[AudioEventSender] '{name}' has no Sound Definition assigned - nothing to play.");
+            return;
+        }
+
+        Transform targetTransform = null;
+
+        if (attachToThisTransform)
+        {
+            targetTransform = this.transform;
+        }
+        else if (transformToAttachTo != null)
+        {
+            targetTransform = transformToAttachTo;
+        }
+
+        // The SoundDefinition supplies the clip directly (asset-safe). Playback params come from
+        // the definition's defaults unless the user opts to override with the inspector values.
+        // GetRandomClip() picks from clip + variations (per play); no-ops to the primary clip
+        // when there are no variations, so single-clip track defs are unaffected.
+        AudioClip directClip = soundDefinition.GetRandomClip();
+
+        float useVolume = volume, usePitch = pitch, useSpatialBlend = spatialBlend, useFadeDuration = fadeDuration;
+        bool useLoop = loop;
+        FadeType useFadeType = fadeType;
+        FadeTarget useFadeTarget = fadeTarget;
+        // 3D rolloff distances come from the definition (the sender has no distance fields).
+        float useMinDistance = 1f, useMaxDistance = 500f;
+
+        if (useDefinitionDefaults)
+        {
+            useVolume = soundDefinition.volume;
+            usePitch = soundDefinition.pitch;
+            useSpatialBlend = soundDefinition.spatialBlend;
+            useLoop = soundDefinition.loop;
+            useFadeType = soundDefinition.fadeType;
+            useFadeDuration = soundDefinition.fadeDuration;
+            useFadeTarget = soundDefinition.fadeTarget;
+        }
+
+        // Distances always come from the def when assigned (applies to spatialised tracks).
+        useMinDistance = soundDefinition.minDistance;
+        useMaxDistance = soundDefinition.maxDistance;
+
+        AudioEventManager.PlayTrack(audioTrackType, -1, "", useVolume, usePitch, useSpatialBlend, useFadeType, useFadeDuration, useFadeTarget, useLoop, eventDelay, targetTransform, eventName, directClip, useMinDistance, useMaxDistance);
+        startedPlayback = true;
+
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (collisionType == CollisionType.Trigger && other.CompareTag(targetTag))
+            ExecuteAction(onExitAction);
+    }
+
+    private void OnCollisionExit(Collision collision)
+    {
+        if (collisionType == CollisionType.Collision && collision.collider.CompareTag(targetTag))
+            ExecuteAction(onExitAction);
+    }
+
+    private void ExecuteAction(TriggerAction action)
+    {
+        switch (action)
+        {
+            case TriggerAction.Play:             Play();               break;
+            case TriggerAction.Stop:             Stop();               break;
+            case TriggerAction.Pause:            Pause();              break;
+            case TriggerAction.AdjustParameters: AdjustParameters();   break;
+            case TriggerAction.None:                                   break;
+        }
+    }
+    
+    public void Stop()
+    {
+        
+        StopTrack();
+        
+    }
+
+    // Fade settings for Stop/Pause - from the definition when using its defaults (symmetric with Play).
+    private float ActiveFadeDuration => useDefinitionDefaults && soundDefinition != null ? soundDefinition.fadeDuration : fadeDuration;
+    private FadeTarget ActiveFadeTarget => useDefinitionDefaults && soundDefinition != null ? soundDefinition.fadeTarget : fadeTarget;
+
+    private void StopTrack()
+    {
+        AudioEventManager.StopTrack(audioTrackType, ActiveFadeDuration, ActiveFadeTarget, eventDelay, eventName);
+        startedPlayback = false;
+    }
+
+    private IEnumerator StopTrack_Delayed(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        StopTrack();
+    }
+
+    // pause the audio
+    public void Pause()
+    {
+        PauseTrack();
+        
+    }
+
+    private void PauseTrack()
+    {
+        //send the Pause Event with parameters from the inspector
+        AudioEventManager.PauseTrack(audioTrackType, ActiveFadeDuration, ActiveFadeTarget, eventDelay, eventName);
+    }
+    
+    
+    // update the audio event sender parameters - instad of playing, stopping or pausing this will just update the parameters
+    public void AdjustParameters(){
+        
+        AdjustTrackParameters();
+        
+    }
+
+    private void AdjustTrackParameters(){
+        
+        Transform targetTransform = null;
+    
+        if (attachToThisTransform)
+        {
+            targetTransform = this.transform;
+        }
+        else if (transformToAttachTo != null)
+        {
+            targetTransform = transformToAttachTo;
+        }
+        
+        //send the UpdateParameters Event with parameters from the inspector
+        AudioEventManager.AdjustTrack(audioTrackType, volume, pitch, spatialBlend, fadeDuration, fadeTarget, loop, eventDelay, targetTransform, eventName);
+    }
+    
+    
+
+    #region Gizmo Visualization
+
+    private void OnDrawGizmosSelected()
+    {
+        if (!useTransformScale) return;
+        
+        // Draw trigger info and activation feedback
+        DrawTriggerInfo();
+        DrawActivationFeedback();
+    }
+
+    private void DrawTriggerInfo()
+    {
+        if (!showTriggerInfo) return;
+        
+        // Calculate label position based on object bounds
+        Bounds bounds = GetObjectBounds();
+        Vector3 labelPos = transform.position + Vector3.up * (bounds.size.y * 0.5f + 1f);
+        
+        #if UNITY_EDITOR
+        UnityEditor.Handles.color = Color.white;
+        string shapeInfo = GetShapeInfo();
+        
+        // Get track type specific info
+        string trackTypeLabel = GetTrackTypeLabel();
+        
+        string soundLabel = soundDefinition != null ? soundDefinition.name : "<none>";
+        UnityEditor.Handles.Label(labelPos,
+            $"{trackTypeLabel}: {eventName}\n" +
+            $"Sound: {soundLabel}\n" +
+            $"Shape: {shapeInfo}\n" +
+            $"Type: {collisionType}\n" +
+            $"Tag: {targetTag}\n" +
+            $"Scale: {transform.lossyScale}");
+        #endif
+    }
+
+    private void DrawActivationFeedback()
+    {
+        if (!isTriggered) return;
+        
+        // Use track type specific color
+        Gizmos.color = GetTrackTypeColor();
+        Bounds bounds = GetObjectBounds();
+        float pulseSize = bounds.size.magnitude * 1.2f;
+        Gizmos.DrawWireSphere(transform.position, pulseSize);
+        
+        // Draw activation icon with track type specific symbol
+        #if UNITY_EDITOR
+        Vector3 iconPos = transform.position + Vector3.up * (bounds.size.y * 0.5f + 2f);
+        UnityEditor.Handles.color = GetTrackTypeColor();
+        string triggerIcon = GetTrackTypeTriggerIcon();
+        UnityEditor.Handles.Label(iconPos, triggerIcon);
+        #endif
+    }
+
+    private string GetTrackTypeLabel()
+    {
+        return audioTrackType switch
+        {
+            AudioTrackType.BGM      => "BGM",
+            AudioTrackType.Ambient  => "Ambient",
+            AudioTrackType.Dialogue => "Dialogue",
+            AudioTrackType.Aux1     => "Aux1",
+            AudioTrackType.Aux2     => "Aux2",
+            _ => "Unknown"
+        };
+    }
+
+    private Color GetTrackTypeColor()
+    {
+        return audioTrackType switch
+        {
+            AudioTrackType.BGM      => new Color(0f, 0f, 1f, 0.8f),      // Blue
+            AudioTrackType.Ambient  => new Color(0f, 1f, 0f, 0.8f),      // Green
+            AudioTrackType.Dialogue => new Color(1f, 0.5f, 0f, 0.8f),    // Orange
+            AudioTrackType.Aux1     => new Color(0.8f, 0f, 0.8f, 0.8f),  // Purple
+            AudioTrackType.Aux2     => new Color(0f, 0.8f, 0.8f, 0.8f),  // Cyan
+            _ => Color.white
+        };
+    }
+
+    private string GetTrackTypeTriggerIcon()
+    {
+        return audioTrackType switch
+        {
+            AudioTrackType.BGM      => "♫ TRIGGERED ♫",
+            AudioTrackType.Ambient  => "~ TRIGGERED ~",
+            AudioTrackType.Dialogue => "💬 TRIGGERED 💬",
+            AudioTrackType.Aux1     => "* TRIGGERED *",
+            AudioTrackType.Aux2     => "* TRIGGERED *",
+            _ => "⚡ TRIGGERED ⚡"
+        };
+    }
+
+    // You might also want to update the default triggerActiveColor in the inspector
+    // to match the track type when the component is added
+    private void Reset()
+    {
+        // Called when component is first added or reset
+        triggerActiveColor = GetTrackTypeColor();
+    }
+
+    private void OnValidate()
+    {
+        // Called when values change in inspector
+        // Update color when track type changes
+        if (triggerActiveColor == Color.white || 
+            triggerActiveColor == new Color(0f, 1f, 0f, 0.8f) || 
+            triggerActiveColor == new Color(0f, 0f, 1f, 0.8f) || 
+            triggerActiveColor == new Color(1f, 0.5f, 0f, 0.8f))
+        {
+            triggerActiveColor = GetTrackTypeColor();
+        }
+    }
+
+    private Bounds GetObjectBounds()
+    {
+        Renderer renderer = GetComponent<Renderer>();
+        if (renderer != null)
+        {
+            return renderer.bounds;
+        }
+        
+        Collider collider = GetComponent<Collider>();
+        if (collider != null)
+        {
+            return collider.bounds;
+        }
+        
+        // Fallback to transform scale
+        return new Bounds(transform.position, transform.lossyScale);
+    }
+
+    private string GetShapeInfo()
+    {
+        MeshFilter meshFilter = GetComponent<MeshFilter>();
+        if (meshFilter?.sharedMesh != null)
+        {
+            return meshFilter.sharedMesh.name;
+        }
+        
+        Collider col = GetComponent<Collider>();
+        if (col != null)
+        {
+            return col.GetType().Name;
+        }
+        
+        return "Unknown";
+    }
+
+    #endregion
+
+    #region Helper Methods for Collider Setup
+
+    [ContextMenu("Setup Collider to Match Transform")]
+    private void SetupColliderToMatchTransform()
+    {
+        Collider col = GetComponent<Collider>();
+        
+        // Detect best collider type based on mesh
+        System.Type bestColliderType = DetectBestColliderType();
+        
+        if (col == null || col.GetType() != bestColliderType)
+        {
+            // Remove existing collider if wrong type
+            if (col != null)
+            {
+                DestroyImmediate(col);
+            }
+            
+            // Add correct collider type
+            col = (Collider)gameObject.AddComponent(bestColliderType);
+        }
+        
+        // Set collider properties
+        col.isTrigger = (collisionType == CollisionType.Trigger);
+        
+        // The collider will automatically use the transform scale
+        
+        #if UNITY_EDITOR
+        UnityEditor.EditorUtility.SetDirty(this);
+        #endif
+        
+        AudioDebug.Log($"Set up {bestColliderType.Name} to match transform scale. Use transform scale to adjust trigger zone size.");
+    }
+
+    private System.Type DetectBestColliderType()
+    {
+        MeshFilter meshFilter = GetComponent<MeshFilter>();
+        if (meshFilter?.sharedMesh != null)
+        {
+            string meshName = meshFilter.sharedMesh.name.ToLower();
+            if (meshName.Contains("sphere") || meshName.Contains("icosphere"))
+            {
+                return typeof(SphereCollider);
+            }
+            else if (meshName.Contains("capsule"))
+            {
+                return typeof(CapsuleCollider);
+            }
+            else if (meshName.Contains("cube") || meshName.Contains("quad") || meshName.Contains("plane"))
+            {
+                return typeof(BoxCollider);
+            }
+        }
+        
+        // Default to box collider
+        return typeof(BoxCollider);
+    }
+
+    #endregion
+}

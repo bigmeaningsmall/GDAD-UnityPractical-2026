@@ -14,5 +14,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SoundBank
   bankId: Ambience-Environment
   sounds:
+  - {fileID: 11400000, guid: 6c8c21af3714bd84a9556697947832b4, type: 2}
   - {fileID: 11400000, guid: 2f89923239df6e24b990fa503d8addb0, type: 2}
+  - {fileID: 11400000, guid: 17a1616d326b5be4b9d8386330a5ba17, type: 2}
+  - {fileID: 11400000, guid: 14a030105bf7da64896677a0749c80bf, type: 2}
+  - {fileID: 11400000, guid: 3fa3dda1a6144a24f856f9691c8b30fa, type: 2}
   - {fileID: 11400000, guid: 29cd8ff46d34904499a224c7894ee4bf, type: 2}
+  - {fileID: 11400000, guid: 3da7d5d90ffa48b48acf1cd0e140da08, type: 2}
+  - {fileID: 11400000, guid: 3d15fe78eaa7adb4389cfd1e772fdb88, type: 2}
+  - {fileID: 11400000, guid: 40bafe7e6589602448ba110391c96ff2, type: 2}
+  - {fileID: 11400000, guid: b18295d0580fd944db25d5b88aa9f725, type: 2}
+  - {fileID: 11400000, guid: 28164d8e22349bb448f6e56584027cd4, type: 2}
+  - {fileID: 11400000, guid: 5cb232a0c04e6074e9f88c3e58f7ed48, type: 2}
+  - {fileID: 11400000, guid: b9c34736a91e1b640880487991ff1d9f, type: 2}
+  - {fileID: 11400000, guid: cb202c0b1b0264a49a0ddb288ce40a02, type: 2}
+  - {fileID: 11400000, guid: 2d125acdd6425ae42ba4892e8ca2299a, type: 2}
+  - {fileID: 11400000, guid: 406b349ef3462cd46b379db754a1912f, type: 2}
+  - {fileID: 11400000, guid: 457e6df44e2e17d4f8832119bec7aa61, type: 2}
+  - {fileID: 11400000, guid: 9729d0100f4facb49b3ca421d9f7ffba, type: 2}
+  - {fileID: 11400000, guid: 2d56cadee73ae5144bf6593da81d97ea, type: 2}
+  - {fileID: 11400000, guid: 9c7faecd8a295f5458a95ad8c4694300, type: 2}
+  - {fileID: 11400000, guid: a156ef17a5ae8524aa2e2dc265f5dbaf, type: 2}
+  - {fileID: 11400000, guid: 5d3169981789f05468c35330c7a10a6d, type: 2}
+  - {fileID: 11400000, guid: 27e8e060c5ec8974581ac1e1420cd4dc, type: 2}

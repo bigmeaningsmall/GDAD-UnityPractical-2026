@@ -14,5 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SoundGeneratorSettings
   audioSourceRoot: Assets/Audio
   soundDefinitionsRoot: Assets/_Extensions/BMS AudioManager/SoundDefinitions
+  userDefinitionsRoot: Assets/_Extensions/BMS AudioManager/SoundDefinitions-User
   soundBanksRoot: Assets/_Extensions/BMS AudioManager/SoundBanks
   generatedScriptsRoot: Assets/_Extensions/BMS AudioManager/Scripts/Generated
+  highestIdIssued: 155

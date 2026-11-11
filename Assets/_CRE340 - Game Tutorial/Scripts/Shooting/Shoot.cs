@@ -73,7 +73,7 @@ public class Shoot : MonoBehaviour
         
         //TODO - We'll make the sound event here - could use the existing event system but we'll use an audiomanager event setup
         //AudioEvent.PlaySFX(SoundId.Pistol_Shot);
-        AudioEvent.PlaySFX(SoundId.Sci_Fi_Shotgun, 0.5f);
+        AudioEvent.PlaySFX(SoundId.Sci_Fi_Shotgun, 0.8f);
         //or
         //AudioEvent.PlaySFX(SoundId.SoundDef_GunShots);
     }

@@ -53,6 +53,9 @@ Readiness fixes for dropping the package into new projects. No API changes.
   **Sleep Manager**), keeps its inside-closed-spline modes and entering transition, and has the extra gizmo
   toggles. **Migration:** any `SimplifiedSplineFollower` in your own scenes becomes a missing script - add
   `SplineFollower` in its place.
+- `SplineFollower` can **find its target by tag** (`findTargetByTag`, `targetTag`, default `"Player"`). It keeps
+  looking until an object with the tag exists, so a player spawned after the scene starts is picked up, and
+  finds it again after a respawn.
 
 ## [3.1.0] - 2026-06-17
 

@@ -401,6 +401,8 @@ Requires the `com.unity.splines` package to be installed.
 
 `SplineFollower` moves an AudioSource along a Unity Spline path tracking the closest point to a target Transform. Useful for river sounds, road traffic, or any audio source that should hug a path rather than emit from a fixed point.
 
+**Target:** set `targetTransform`, or turn on `findTargetByTag` and set `targetTag` (default `"Player"`) to follow an object that may spawn later. The follower checks every `tagSearchInterval` seconds until the object exists, and searches again if it's destroyed and respawned. With neither set, it follows the AudioListener, then the main camera. From code, call `SetTarget(transform)` from your spawner.
+
 **Key settings:**
 - `proximityThreshold` - how close the target must be to the spline for the follower to track it
 - `movementSpeed` - how fast the follower tracks along the spline

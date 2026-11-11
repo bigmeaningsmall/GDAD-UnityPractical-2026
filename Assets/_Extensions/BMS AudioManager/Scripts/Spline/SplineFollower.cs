@@ -72,6 +72,17 @@ public class SplineFollower : MonoBehaviour
     [Tooltip("Target transform to follow (optional, will use AudioListener or Camera if not set)")]
     public Transform targetTransform;
 
+    [Tooltip("When Target Transform isn't set, find the target by tag instead. Keeps looking until an object with " +
+             "the tag exists (e.g. a player spawned a few seconds in), and looks again if it's destroyed and respawned.")]
+    public bool findTargetByTag = false;
+
+    [Tooltip("Tag of the object to follow")]
+    public string targetTag = "Player";
+
+    [Tooltip("Seconds between searches while no object with the tag exists")]
+    [Range(0.1f, 5f)]
+    public float tagSearchInterval = 0.5f;
+
     [Header("Sleep Manager")]
     public SplineSleepManager sleepManager = new SplineSleepManager();
 
@@ -128,6 +139,10 @@ public class SplineFollower : MonoBehaviour
     // Update timing
     private float accumulatedTime = 0f;
     private float updateInterval = 0f;
+
+    // Finding the target by tag
+    private float nextTagSearchTime = 0f;
+    private bool loggedMissingTag = false;
 
     private int ClosestPointSamples => Mathf.Max(50, splineSampleCount * 2);
 
@@ -194,6 +209,13 @@ public class SplineFollower : MonoBehaviour
             return;
         }
 
+        // Tagged target - if it doesn't exist yet, LateUpdate keeps looking rather than settling for a camera
+        if (findTargetByTag)
+        {
+            TryFindTargetByTag();
+            return;
+        }
+
         // Try AudioListener first
         AudioListener listener = FindAnyObjectByType<AudioListener>();
         if (listener != null)
@@ -226,6 +248,39 @@ public class SplineFollower : MonoBehaviour
         }
 
         Debug.LogWarning("SplineFollower: No suitable target found. Please set targetTransform manually or call Initialize().");
+    }
+
+    /// <summary>
+    /// Looks for an object with targetTag (at most once per tagSearchInterval) and starts following it if found.
+    /// </summary>
+    private void TryFindTargetByTag()
+    {
+        if (Time.time < nextTagSearchTime || string.IsNullOrEmpty(targetTag)) return;
+        nextTagSearchTime = Time.time + tagSearchInterval;
+
+        GameObject found;
+        try
+        {
+            found = GameObject.FindWithTag(targetTag);
+        }
+        catch (UnityException)
+        {
+            // The tag isn't defined in the Tag Manager - say so once rather than on every search
+            if (!loggedMissingTag)
+            {
+                Debug.LogWarning($"SplineFollower: Tag '{targetTag}' is not defined in the Tag Manager.", this);
+                loggedMissingTag = true;
+            }
+            return;
+        }
+
+        if (found == null) return;
+
+        trackingTarget = found.transform;
+        targetTransform = found.transform;
+        isInitialized = true;
+
+        RestartFollowing();
     }
 
     #endregion
@@ -282,6 +337,7 @@ public class SplineFollower : MonoBehaviour
         float closestT = SplineUtilities.FindClosestPoint(splineContainer, trackingTarget.position, ClosestPointSamples);
         currentSplinePosition = closestT;
         hasTrackedPosition = true;
+        currentState = FollowState.Normal; // the follower is back on the spline
         rejoining = false;
         entering = false;
 
@@ -304,6 +360,13 @@ public class SplineFollower : MonoBehaviour
 
     private void LateUpdate()
     {
+        // No target yet, or it was destroyed - keep looking by tag if that's enabled
+        if (trackingTarget == null)
+        {
+            isInitialized = false;
+            if (findTargetByTag) TryFindTargetByTag();
+        }
+
         if (!isInitialized || trackingTarget == null) return;
 
         // Handle update timing

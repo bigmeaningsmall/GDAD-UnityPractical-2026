@@ -16,10 +16,18 @@ MonoBehaviour:
   clip: {fileID: 8300000, guid: 9808f6c0021e8c9498b2dffdc7d8f7ec, type: 3}
   variations: []
   audioType: 6
-  volume: 1
+  volume: 0.228
   pitch: 1
   loop: 0
   spatialBlend: 0
   fadeType: 0
   fadeDuration: 0.5
   fadeTarget: 3
+  randomizePitch: 1
+  pitchRange: 0.1
+  volumeRange: 0
+  percentChanceToPlay: 100
+  randomizeDelay: 0
+  delay: 0
+  minDistance: 1
+  maxDistance: 50

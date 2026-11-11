@@ -23,3 +23,11 @@ MonoBehaviour:
   fadeType: 0
   fadeDuration: 0.5
   fadeTarget: 3
+  randomizePitch: 1
+  pitchRange: 0.1
+  volumeRange: 0
+  percentChanceToPlay: 100
+  randomizeDelay: 0
+  delay: 0
+  minDistance: 1
+  maxDistance: 500

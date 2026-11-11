@@ -40,7 +40,7 @@ public class Shoot : MonoBehaviour
         //todo buttons need changed 
         if (inputManager.ButtonSouth.Held() && Time.time > lastShootTime + shootCooldown)
         {
-            Fire();
+            //Fire();
         }
     }
 
@@ -72,5 +72,9 @@ public class Shoot : MonoBehaviour
         Debug.Log("WeaponFired published at " + message.position);
         
         //TODO - We'll make the sound event here - could use the existing event system but we'll use an audiomanager event setup
+        //AudioEvent.PlaySFX(SoundId.Pistol_Shot);
+        AudioEvent.PlaySFX(SoundId.Sci_Fi_Shotgun, 0.5f);
+        //or
+        //AudioEvent.PlaySFX(SoundId.SoundDef_GunShots);
     }
 }

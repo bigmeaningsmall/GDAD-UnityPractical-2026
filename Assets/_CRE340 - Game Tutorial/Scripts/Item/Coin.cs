@@ -17,6 +17,9 @@ public class Coin : Item
     public override void Use(PlayerStats player)
     {
         Debug.Log("Picked up a coin worth " + coinValue);
+        
+        //todo coin soundzzz
+        AudioEvent.PlaySFX(SoundId.SFX_collect_bonus1);
 
         GameManager.Instance.AddCoins(coinValue);
     }

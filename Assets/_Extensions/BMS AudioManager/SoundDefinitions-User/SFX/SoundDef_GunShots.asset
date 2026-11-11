@@ -26,7 +26,7 @@ MonoBehaviour:
   fadeType: 0
   fadeDuration: 0
   fadeTarget: 0
-  randomizePitch: 0
+  randomizePitch: 1
   pitchRange: 0.1
   volumeRange: 0
   percentChanceToPlay: 100

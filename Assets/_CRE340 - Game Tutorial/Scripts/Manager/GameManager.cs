@@ -79,6 +79,9 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         SpawnPlayer();
+        
+        //todo could start musis here 
+        AudioEvent.PlayTrack(SoundId.Ambient_Vol4_Timelapse_Main,  0.3f);
     }
 
     private void SpawnPlayer()

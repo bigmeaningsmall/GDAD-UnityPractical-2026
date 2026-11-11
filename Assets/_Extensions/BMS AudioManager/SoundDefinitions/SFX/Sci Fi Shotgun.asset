@@ -26,8 +26,8 @@ MonoBehaviour:
   fadeType: 1
   fadeDuration: 0.85
   fadeTarget: 1
-  randomizePitch: 0
-  pitchRange: 0.1
+  randomizePitch: 1
+  pitchRange: 0.2
   volumeRange: 0
   percentChanceToPlay: 100
   randomizeDelay: 0

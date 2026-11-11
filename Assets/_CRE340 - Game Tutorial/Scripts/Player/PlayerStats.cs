@@ -50,6 +50,7 @@ public class PlayerStats : MonoBehaviour, IDamagable
         UIEventManager.HealthChanged(data.currentHealth, data.maxHealth);
         
         //todo - restore sound call
+        AudioEvent.PlaySFX(SoundId.Health_Pickup_1);
     }
 
     // Add mana, but never go above maxMana
@@ -61,6 +62,7 @@ public class PlayerStats : MonoBehaviour, IDamagable
         UIEventManager.ManaChanged(data.currentMana, data.maxMana);
         
         //todo - restore sound call
+        AudioEvent.PlaySFX(SoundId.SFX_powerUp8);
     }
 
     // Required by IDamagable - take damage the same way anything else in the game does
@@ -72,6 +74,7 @@ public class PlayerStats : MonoBehaviour, IDamagable
         UIEventManager.HealthChanged(data.currentHealth, data.maxHealth);
         
         //todo - damage sound call
+        AudioEvent.PlaySFX(SoundId.Debuff, 0.7f);
 
         // Broadcast it, exactly like the crates and enemies do.
         // The event logger picks this up without us doing anything else.
@@ -109,6 +112,9 @@ public class PlayerStats : MonoBehaviour, IDamagable
         }
 
         //todo dead player sound
+        // Die() - the player is destroyed straight after, so play it at a position
+//todo dead player sound
+        AudioEvent.PlaySFX(SoundId.Explosion_Flesh, transform.position);
         
         Debug.Log("Player died!");
 

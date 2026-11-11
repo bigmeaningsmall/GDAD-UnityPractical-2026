@@ -67,6 +67,8 @@ public class TwinStickController : MonoBehaviour
             lastDashTime = Time.time;
             
             //TODO test - play dash sound effect here and a trail
+            //TODO test - play dash sound effect here
+            AudioEvent.PlaySFX(SoundId.Fast_Swish);
         }
 
         // End the dash once dashTime seconds have passed since it started

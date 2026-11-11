@@ -30,6 +30,8 @@ public class Bullet : MonoBehaviour
             Debug.Log("Hit something - " + damageable.Health + " health remaining");
             
             //todo sound - we can call the sound here so its the same for all or... make sound dependant on object hit?
+            //todo sound - inside the IDamagable check
+            AudioEvent.PlaySFX(SoundId.Slap_Heavy, transform.position);
         }
     }
 }

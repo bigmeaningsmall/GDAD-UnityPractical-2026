@@ -73,6 +73,8 @@ public class Enemy : MonoBehaviour, IDamagable
         SetState(IdleState);
 
         // todo - call sound for enemy spawn
+        // todo - call sound for enemy spawn
+        AudioEvent.PlaySFX(SoundId.Spawn_3, transform.position);
     }
 
     private void Update()
@@ -127,6 +129,9 @@ public class Enemy : MonoBehaviour, IDamagable
 
     public void TakeDamage(int damage)
     {
+        // TakeDamage() - put this at the TOP, before the health check, so it also plays on the killing hit
+        AudioEvent.PlaySFX(SoundId.Flesh_Hit, transform.position);
+        
         health -= damage;
 
         if (HealthEventManager.OnObjectDamaged != null)
@@ -181,6 +186,8 @@ public class Enemy : MonoBehaviour, IDamagable
         EventBus<EnemyKilled>.Publish(message);
         
         //todo call the death sound here
+        //todo call the death sound here
+        AudioEvent.PlaySFX(SoundId.Explosion_Short, transform.position);
 
         Destroy(gameObject);
     }

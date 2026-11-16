@@ -19,7 +19,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 885a0ae5ff41e304c92602731ea5a3b0, type: 3}
   - {fileID: 8300000, guid: ecaac556c8481624a8d6a7617376e7d2, type: 3}
   audioType: 6
-  volume: 1
+  volume: 0.311
   pitch: 1
   loop: 0
   spatialBlend: 0

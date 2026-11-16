@@ -51,6 +51,8 @@ public class PlayerStats : MonoBehaviour, IDamagable
         
         //todo - restore sound call
         AudioEvent.PlaySFX(SoundId.Health_Pickup_1);
+        
+        PublishHealthChanged(false);
     }
 
     // Add mana, but never go above maxMana
@@ -64,6 +66,18 @@ public class PlayerStats : MonoBehaviour, IDamagable
         //todo - restore sound call
         AudioEvent.PlaySFX(SoundId.SFX_powerUp8);
     }
+    
+    // One place that announces a health change. Called from anywhere health moves,
+    // so the message only gets built once.
+    private void PublishHealthChanged(bool tookDamage)
+    {
+        PlayerHealthChanged message = new PlayerHealthChanged();
+        message.currentHealth = data.currentHealth;
+        message.maxHealth = data.maxHealth;
+        message.tookDamage = tookDamage;
+
+        EventBus<PlayerHealthChanged>.Publish(message);
+    }
 
     // Required by IDamagable - take damage the same way anything else in the game does
     public void TakeDamage(int damage)
@@ -72,6 +86,13 @@ public class PlayerStats : MonoBehaviour, IDamagable
         data.currentHealth = Mathf.Clamp(data.currentHealth, 0, data.maxHealth);
         
         UIEventManager.HealthChanged(data.currentHealth, data.maxHealth);
+        
+        PlayerHealthChanged message = new PlayerHealthChanged();
+        message.currentHealth = data.currentHealth;
+        message.maxHealth = data.maxHealth;
+        message.tookDamage = true;
+
+        EventBus<PlayerHealthChanged>.Publish(message);
         
         //todo - damage sound call
         AudioEvent.PlaySFX(SoundId.Debuff, 0.7f);
@@ -87,6 +108,8 @@ public class PlayerStats : MonoBehaviour, IDamagable
         {
             Die();
         }
+        
+        PublishHealthChanged(true);
     }
 
     // Required by IDamagable

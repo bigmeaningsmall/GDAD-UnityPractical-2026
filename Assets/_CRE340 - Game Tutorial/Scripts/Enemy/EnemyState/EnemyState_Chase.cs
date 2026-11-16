@@ -7,6 +7,10 @@ public class EnemyState_Chase : IEnemyState
 
     public void Enter(Enemy enemy)
     {
+        EnemyChaseStarted message = new EnemyChaseStarted();
+        message.enemy = enemy.transform;
+
+        EventBus<EnemyChaseStarted>.Publish(message);
     }
 
     public void Update(Enemy enemy)
@@ -32,5 +36,9 @@ public class EnemyState_Chase : IEnemyState
 
     public void Exit(Enemy enemy)
     {
+        EnemyChaseEnded message = new EnemyChaseEnded();
+        message.enemy = enemy.transform;
+
+        EventBus<EnemyChaseEnded>.Publish(message);
     }
 }

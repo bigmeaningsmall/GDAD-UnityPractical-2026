@@ -77,6 +77,16 @@ public class Enemy : MonoBehaviour, IDamagable
         AudioEvent.PlaySFX(SoundId.Spawn_3, transform.position);
     }
 
+    private void OnDisable()
+    {
+        // An enemy that dies mid-chase never gets Exit called, so the chase
+        // would never be reported as finished. Destroying an object fires
+        // OnDisable, so we can do it here.
+        if (currentState != null)
+        {
+            currentState.Exit(this);
+        }
+    }
     private void Update()
     {
         // The chase that used to be here has moved into EnemyState_Chase.

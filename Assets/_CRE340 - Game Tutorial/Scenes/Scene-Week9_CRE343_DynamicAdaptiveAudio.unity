@@ -1957,7 +1957,7 @@ PrefabInstance:
     - target: {fileID: 5355574976095253072, guid: 89621415efb6a794087214f779dcb9f2, type: 3}
       propertyPath: soundDefinition
       value: 
-      objectReference: {fileID: 11400000, guid: 4534493b79302634b9ba1f08a5c0a868, type: 2}
+      objectReference: {fileID: 11400000, guid: 3d15fe78eaa7adb4389cfd1e772fdb88, type: 2}
     - target: {fileID: 5355574976095253072, guid: 89621415efb6a794087214f779dcb9f2, type: 3}
       propertyPath: ambientTrackNumber
       value: 0
@@ -1980,7 +1980,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6014174656882223073, guid: 89621415efb6a794087214f779dcb9f2, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -2.5
+      value: -0.5
       objectReference: {fileID: 0}
     - target: {fileID: 6014174656882223073, guid: 89621415efb6a794087214f779dcb9f2, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1988,7 +1988,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6014174656882223073, guid: 89621415efb6a794087214f779dcb9f2, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -1
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 6014174656882223073, guid: 89621415efb6a794087214f779dcb9f2, type: 3}
       propertyPath: m_LocalRotation.w
@@ -18230,7 +18230,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 8300000, guid: 9436f9413b13a52459d5ddac177687ab, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.222
+  m_Volume: 0.61
   m_Pitch: 0.45
   Loop: 1
   Mute: 0
@@ -32554,98 +32554,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2191753885254635614, guid: 731f6a8a99efb4b4ba0c9ce028534091, type: 3}
   m_PrefabInstance: {fileID: 1043921994}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1044173492
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1044173494}
-  - component: {fileID: 1044173493}
-  m_Layer: 0
-  m_Name: Spline
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1044173493
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1044173492}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dab5c7d4c32e743048dfca98e2d5914f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Unity.Splines::UnityEngine.Splines.SplineContainer
-  m_Spline:
-    m_EditModeType: 1
-    m_Knots: []
-    m_MetaData: []
-    m_Closed: 0
-    m_IntData:
-      m_Data: []
-    m_FloatData:
-      m_Data: []
-    m_Float4Data:
-      m_Data: []
-    m_ObjectData:
-      m_Data: []
-  m_Splines:
-  - m_EditModeType: 1
-    m_Knots:
-    - Position:
-        x: 0
-        y: 0
-        z: 0
-      TangentIn:
-        x: -0
-        y: -0
-        z: -0
-      TangentOut:
-        x: 0
-        y: 0
-        z: 0
-      Rotation:
-        value:
-          x: -0
-          y: 0
-          z: -0.000022752076
-          w: 1
-    m_MetaData:
-    - Mode: 0
-      Tension: 0.5
-    m_Closed: 0
-    m_IntData:
-      m_Data: []
-    m_FloatData:
-      m_Data: []
-    m_Float4Data:
-      m_Data: []
-    m_ObjectData:
-      m_Data: []
-  m_Knots:
-    m_KnotsLink: []
---- !u!4 &1044173494
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1044173492}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -80.66442, y: -1.4265776, z: 83.692696}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1044558028
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -36899,6 +36807,73 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1439956704430547656, guid: f42a3be579fb89a41b3a06bc54a9c0c2, type: 3}
   m_PrefabInstance: {fileID: 1166697576}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1175555278
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1175555280}
+  - component: {fileID: 1175555279}
+  - component: {fileID: 1175555281}
+  m_Layer: 0
+  m_Name: Dynamic Audio
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1175555279
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1175555278}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc398f9267f76de4bb57a23d450e29d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DynamicAudioEffects
+  normal: {fileID: 1754347348736825034, guid: 3c08029f3a334d8468cd0ea11728e603, type: 2}
+  hit: {fileID: 1098006984744489532, guid: 3c08029f3a334d8468cd0ea11728e603, type: 2}
+  lowHealth: {fileID: 3598087951644142948, guid: 3c08029f3a334d8468cd0ea11728e603, type: 2}
+  duckInTime: 0.05
+  duckOutTime: 0.6
+  lowHealthFraction: 0.3
+  stateChangeTime: 1
+--- !u!4 &1175555280
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1175555278}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1175555281
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1175555278}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 253cf5771e6ef5e4bb49710749261435, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MusicIntensity
+  intensityTracks: 490000004a0000004b000000
+  musicVolume: 1
+  dropHoldTime: 2
 --- !u!1 &1175978813
 GameObject:
   m_ObjectHideFlags: 0
@@ -45760,7 +45735,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 8300000, guid: 9436f9413b13a52459d5ddac177687ab, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.5
+  m_Volume: 0.771
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -66532,7 +66507,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5355574976095253072, guid: 89621415efb6a794087214f779dcb9f2, type: 3}
       propertyPath: volume
-      value: 1
+      value: 0.25
       objectReference: {fileID: 0}
     - target: {fileID: 5355574976095253072, guid: 89621415efb6a794087214f779dcb9f2, type: 3}
       propertyPath: fadeType
@@ -66569,7 +66544,7 @@ PrefabInstance:
     - target: {fileID: 5355574976095253072, guid: 89621415efb6a794087214f779dcb9f2, type: 3}
       propertyPath: soundDefinition
       value: 
-      objectReference: {fileID: 11400000, guid: 8b3cfa2a53f638843921fe0228b4ffdc, type: 2}
+      objectReference: {fileID: 11400000, guid: 3fa3dda1a6144a24f856f9691c8b30fa, type: 2}
     - target: {fileID: 5355574976095253072, guid: 89621415efb6a794087214f779dcb9f2, type: 3}
       propertyPath: ambientTrackNumber
       value: 0
@@ -66592,7 +66567,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6014174656882223073, guid: 89621415efb6a794087214f779dcb9f2, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -9.5
+      value: -7.5
       objectReference: {fileID: 0}
     - target: {fileID: 6014174656882223073, guid: 89621415efb6a794087214f779dcb9f2, type: 3}
       propertyPath: m_LocalPosition.y
@@ -66600,7 +66575,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6014174656882223073, guid: 89621415efb6a794087214f779dcb9f2, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 1
+      value: 18
       objectReference: {fileID: 0}
     - target: {fileID: 6014174656882223073, guid: 89621415efb6a794087214f779dcb9f2, type: 3}
       propertyPath: m_LocalRotation.w
@@ -67027,4 +67002,4 @@ SceneRoots:
   - {fileID: 1410128318}
   - {fileID: 1330012878}
   - {fileID: 53629763}
-  - {fileID: 1044173494}
+  - {fileID: 1175555280}

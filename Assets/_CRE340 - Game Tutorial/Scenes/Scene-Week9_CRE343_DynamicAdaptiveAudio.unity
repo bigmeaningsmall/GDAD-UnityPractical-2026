@@ -19195,6 +19195,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 429927049}
     m_Modifications:
     - target: {fileID: 1798408813154171869, guid: 061e1c5bd8269d545a6d42f763eea41c, type: 3}
+      propertyPath: pitchRange
+      value: 0.442
+      objectReference: {fileID: 0}
+    - target: {fileID: 1798408813154171869, guid: 061e1c5bd8269d545a6d42f763eea41c, type: 3}
       propertyPath: soundDefinition
       value: 
       objectReference: {fileID: 11400000, guid: 953b87e9c18630d468537f0f910f6ae8, type: 2}
@@ -32953,6 +32957,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 429927049}
     m_Modifications:
+    - target: {fileID: 1798408813154171869, guid: 061e1c5bd8269d545a6d42f763eea41c, type: 3}
+      propertyPath: pitchRange
+      value: 0.451
+      objectReference: {fileID: 0}
     - target: {fileID: 1798408813154171869, guid: 061e1c5bd8269d545a6d42f763eea41c, type: 3}
       propertyPath: soundDefinition
       value: 

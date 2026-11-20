@@ -6,6 +6,11 @@ public class Shoot : MonoBehaviour
     public InputManager inputManager; // drag the InputManager object onto this in the Inspector
 
     [Space(10)]
+    
+    [Header("Object Pooling")]
+    public bool useObjectPooling = true;
+
+    private BulletPool bulletPool;
 
     public GameObject bulletPrefab;     // Reference to the bullet prefab
     public Transform bulletSpawnPoint;  // Where the bullet appears from
@@ -26,6 +31,12 @@ public class Shoot : MonoBehaviour
             bulletSpawnPoint.localPosition = new Vector3(0f, 0.2f, 1f); // slightly up and 1 unit in front
             bulletSpawnPoint.localRotation = Quaternion.identity;
         }
+
+        // --- NEW ---
+        // Find the pool once at the start. We can't drag it in because the Player
+        // is a prefab the GameManager instantiates, and a prefab can't hold a
+        // reference to something sitting in the scene.
+        bulletPool = FindFirstObjectByType<BulletPool>();
     }
 
     void Update()
@@ -46,23 +57,32 @@ public class Shoot : MonoBehaviour
 
     void Fire()
     {
-        // Instantiate the bullet prefab at the spawn point position and rotation
-        GameObject bullet = Instantiate(bulletPrefab, bulletSpawnPoint.position, bulletSpawnPoint.rotation);
-
         // Fire it in the direction the player is facing
         Vector3 bulletDirection = transform.forward;
 
-        Rigidbody bulletRb = bullet.GetComponent<Rigidbody>();
+        // --- NEW - where the bullet comes from is the only thing that changed ---
+        Bullet bullet;
 
-        if (bulletRb != null)
+        if (useObjectPooling && bulletPool != null)
         {
-            bulletRb.linearVelocity = bulletDirection * bulletSpeed;
+            // Ask the pool for one that already exists
+            bullet = bulletPool.Get(bulletSpawnPoint.position, bulletSpawnPoint.rotation);
         }
+        else
+        {
+            // The old way, kept so we can compare the two
+            GameObject newObject = Instantiate(bulletPrefab, bulletSpawnPoint.position, bulletSpawnPoint.rotation);
+
+            bullet = newObject.GetComponent<Bullet>();
+        }
+
+        // Same line either way - the bullet doesn't know where it came from
+        bullet.Launch(bulletDirection * bulletSpeed);
 
         // Update the last shoot time to enforce the cooldown
         lastShootTime = Time.time;
 
-        // --- NEW - announce that a shot was fired ---
+        // --- announce that a shot was fired ---
         WeaponFired message = new WeaponFired();
         message.position = bulletSpawnPoint.position;
         message.direction = bulletDirection;

@@ -14,7 +14,6 @@ GameObject:
   - component: {fileID: 4736118404398200114}
   - component: {fileID: -4431364408110582307}
   - component: {fileID: 4265078137925434444}
-  - component: {fileID: -4242263510447361665}
   - component: {fileID: -7097230275578175416}
   m_Layer: 0
   m_Name: Bullet
@@ -156,25 +155,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Bullet
   damage: 3
---- !u!114 &-4242263510447361665
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5324329412320819938}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 22f236aabb205204c87ea77583ceba86, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ObjectDestruction
-  destroyAfterTime: 1
-  destructionTime: 3
-  destroyOnCollision: 1
-  collisionDestroyThreshold: 1
-  destroyOffScreen: 1
-  destroyIfIdle: 0
-  idleTimeThreshold: 3
+  lifeTime: 5
 --- !u!96 &-7097230275578175416
 TrailRenderer:
   serializedVersion: 4
